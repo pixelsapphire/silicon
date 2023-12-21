@@ -18,13 +18,13 @@ node[below] at (encoder.bpin 13){\rotatebox[origin=c]{90}{\scriptsize{\texttt{3}
 node[below] at (encoder.bpin 14){\rotatebox[origin=c]{90}{\scriptsize{\texttt{GS}}}}
 node[below] at (encoder.bpin 15){\rotatebox[origin=c]{90}{\scriptsize{\texttt{EO}}}}
 node[below] at (encoder.bpin 16){\rotatebox[origin=c]{90}{\scriptsize{\texttt{VCC}}}};
-\draw (encoder.bpin 11)++(0,--0.3) coordinate(encoder-1);
-\draw (encoder.bpin 12)++(0,--0.2) coordinate(encoder-2);
-\draw (encoder.bpin 13)++(0,--0.1) coordinate(encoder-3);
-\draw (encoder.bpin 1)++(0,-0.1) coordinate(encoder-4);
-\draw (encoder.bpin 2)++(0,-0.2) coordinate(encoder-5);
-\draw (encoder.bpin 3)++(0,-0.3) coordinate(encoder-6);
-\draw (encoder.bpin 4)++(0,-0.4) coordinate(encoder-7);
+\draw (encoder.bpin 11)++(0,--0.6) coordinate(encoder-1) to[short,-*]++(0,0);
+\draw (encoder.bpin 12)++(0,--0.4) coordinate(encoder-2) to[short,-*]++(0,0);
+\draw (encoder.bpin 13)++(0,--0.2) coordinate(encoder-3) to[short,-*]++(0,0);
+\draw (encoder.bpin 1)++(0,-0.2) coordinate(encoder-4) to[short,-*]++(0,0);
+\draw (encoder.bpin 2)++(0,-0.4) coordinate(encoder-5) to[short,-*]++(0,0);
+\draw (encoder.bpin 3)++(0,-0.6) coordinate(encoder-6) to[short,-*]++(0,0);
+\draw (encoder.bpin 4)++(0,-0.8) coordinate(encoder-7) to[short,-*]++(0,0);
 \draw (3,--2) coordinate(probe-1) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P1}}}};
 \draw (3,--2)++(0,-0.25) coordinate(probe-2) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P2}}}};
 \draw (3,--2)++(0,-0.5) coordinate(probe-3) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P3}}}};

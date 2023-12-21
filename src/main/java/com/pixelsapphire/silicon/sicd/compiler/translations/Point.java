@@ -6,6 +6,8 @@ import com.pixelsapphire.silicon.sicd.parser.node.definition.PointDefinitionNode
 import com.pixelsapphire.silicon.sicd.parser.node.literal.LiteralNode;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class Point {
 
     public static @NotNull String compilePoint(@NotNull PointDefinitionNode pointDefinition, @NotNull RootNode root) {
@@ -25,8 +27,9 @@ public class Point {
                                                             label.get().getLocationOrUnknown());
                     }
                 }
+                case "junction" -> coordinates += " to[short,-*]++(0,0)";
                 default -> throw new CompilationException("Unsupported point type: " + initializer.getName(),
-                                                          initializer.getLocation());
+                                                          Objects.requireNonNull(initializer.getLocation()));
             }
         }
         return coordinates + ";";
