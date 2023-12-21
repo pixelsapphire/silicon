@@ -55,6 +55,8 @@ public class SiCDLexer {
                 else if (c == ':') tokens.add(ValuelessToken.colon().at(pos));
                 else if (c == ';') tokens.add(ValuelessToken.semicolon().at(pos));
                 else if (c == '!') tokens.add(ValuelessToken.exclamationMark().at(pos));
+                else if (c == '+') tokens.add(ValuelessToken.plus().at(pos));
+                else if (c == '-') tokens.add(ValuelessToken.minus().at(pos));
                 else throw new InvalidCharacterException("Unexpected character: " + source[i], this.source.getCoordinates(i));
             }
         }

@@ -1,4 +1,4 @@
-package com.pixelsapphire.silicon.sicd.parser.node;
+package com.pixelsapphire.silicon.sicd.parser.node.literal;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -18,5 +18,10 @@ public class NumberLiteralNode extends LiteralNode {
     @Override
     public @NotNull Type getType() {
         return Type.NUMBER_LITERAL;
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

@@ -5,22 +5,28 @@ import com.pixelsapphire.silicon.latex.LaTeXCommand;
 import com.pixelsapphire.silicon.latex.LaTeXMathMode;
 import com.pixelsapphire.silicon.sicd.compiler.CompilationException;
 import com.pixelsapphire.silicon.sicd.compiler.UndefinedParameterException;
-import com.pixelsapphire.silicon.sicd.parser.node.*;
+import com.pixelsapphire.silicon.sicd.parser.node.Node;
+import com.pixelsapphire.silicon.sicd.parser.node.ParametersListNode;
+import com.pixelsapphire.silicon.sicd.parser.node.RootNode;
+import com.pixelsapphire.silicon.sicd.parser.node.definition.ComponentDefinitionNode;
+import com.pixelsapphire.silicon.sicd.parser.node.literal.LiteralNode;
+import com.pixelsapphire.silicon.sicd.parser.node.literal.StringLiteralNode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class Components {
 
-    public static @NotNull String compileComponent(@NotNull ComponentDefinitionNode componentDefinition) {
+    public static @NotNull String compileComponent(@NotNull ComponentDefinitionNode componentDefinition,
+                                                   @NotNull RootNode root) {
         return switch (componentDefinition.getDefinition().getName()) {
-            case "dip_chip" -> compileDipChip(componentDefinition);
+            case "dip_chip" -> compileDipChip(componentDefinition, root);
             default -> throw new CompilationException("Unexpected component: " + componentDefinition.getDefinition().getName(),
                                                       componentDefinition.getLocationOrUnknown());
         };
     }
 
-    private static @NotNull String compileDipChip(@NotNull ComponentDefinitionNode component) {
+    private static @NotNull String compileDipChip(@NotNull ComponentDefinitionNode component, @NotNull RootNode root) {
 
         final ParametersListNode params = component.getDefinition().getParameters();
         final Node label = params.get("label").orElse(new StringLiteralNode(""));
@@ -36,11 +42,11 @@ public class Components {
             final Node node = elements.get(i);
             if (node instanceof final LiteralNode pin) {
 
-                final LaTeX pinLabel = new LaTeXCommand("texttt").withRequiredArgument(pin.getLiteral());
+                LaTeX pinLabel = new LaTeXCommand("texttt").withRequiredArgument(pin.getLiteral());
                 if (pin instanceof final StringLiteralNode name && name.isNegated())
-                    pinLabel.wrapWith(new LaTeXCommand("overline")).wrapWith(LaTeXMathMode.inline());
-                pinLabel.wrapWith(new LaTeXCommand("scriptsize"))
-                        .wrapWith(new LaTeXCommand("rotatebox").withOptionalArgument("origin", "c").withRequiredArgument("90"));
+                    pinLabel = pinLabel.wrapWith(new LaTeXCommand("overline")).wrapWith(LaTeXMathMode.inline());
+                pinLabel = pinLabel.wrapWith(new LaTeXCommand("scriptsize"))
+                                   .wrapWith(new LaTeXCommand("rotatebox").withOptionalArgument("origin", "c").withRequiredArgument("90"));
 
                 pinout.append("\nnode[").append(i < half ? firstHalf : secondHalf).append("] at (")
                       .append(component.getName()).append(".bpin ").append(i + 1)
@@ -50,7 +56,7 @@ public class Components {
 
         return "\\draw node[dipchip,num pins=" + CommonNodes.compileExpression(pins) +
                ",rotate=90,hide numbers,external pins width=0] at " +
-               CommonNodes.compileCoordinates(component.getCoordinates()) +
+               CommonNodes.compileCoordinates(component.getCoordinates(), root) +
                " (" + component.getName() + ") {" + CommonLaTeX.dipChipLabel(CommonNodes.compileExpression(label)) +
                "} " + pinout + ";";
     }

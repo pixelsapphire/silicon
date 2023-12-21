@@ -89,5 +89,13 @@ public abstract class Token implements Location {
          * An exclamation mark ({@code !}) token.
          */
         EXCLAMATION_MARK,
+        /**
+         * A plus ({@code +}) token.
+         */
+        PLUS,
+        /**
+         * A plus ({@code -}) token.
+         */
+        MINUS,
     }
 }

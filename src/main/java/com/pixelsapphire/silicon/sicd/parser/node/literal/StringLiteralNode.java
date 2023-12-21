@@ -1,5 +1,6 @@
-package com.pixelsapphire.silicon.sicd.parser.node;
+package com.pixelsapphire.silicon.sicd.parser.node.literal;
 
+import com.pixelsapphire.silicon.sicd.parser.node.Negation;
 import org.jetbrains.annotations.NotNull;
 
 public class StringLiteralNode extends LiteralNode implements Negation {
@@ -31,5 +32,16 @@ public class StringLiteralNode extends LiteralNode implements Negation {
     @Override
     public boolean isNegated() {
         return negated;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof StringLiteralNode other) return value.equals(other.value) && negated == other.negated;
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return negated ? "!" + value : value;
     }
 }

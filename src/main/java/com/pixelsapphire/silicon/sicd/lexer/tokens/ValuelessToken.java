@@ -101,6 +101,26 @@ public class ValuelessToken extends Token {
         return new ValuelessToken(Type.EXCLAMATION_MARK);
     }
 
+    /**
+     * Creates a new plus ({@code +}) token.
+     *
+     * @return the new token
+     */
+    @Contract(pure = true, value = " -> new")
+    public static @NotNull ValuelessToken plus() {
+        return new ValuelessToken(Type.PLUS);
+    }
+
+    /**
+     * Creates a new minus ({@code -}) token.
+     *
+     * @return the new token
+     */
+    @Contract(pure = true, value = " -> new")
+    public static @NotNull ValuelessToken minus() {
+        return new ValuelessToken(Type.MINUS);
+    }
+
     @Override
     public @NotNull Type getType() {
         return type;

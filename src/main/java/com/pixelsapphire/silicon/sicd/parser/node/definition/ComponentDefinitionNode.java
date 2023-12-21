@@ -1,11 +1,17 @@
-package com.pixelsapphire.silicon.sicd.parser.node;
+package com.pixelsapphire.silicon.sicd.parser.node.definition;
 
+import com.pixelsapphire.silicon.sicd.parser.node.ComponentNode;
+import com.pixelsapphire.silicon.sicd.parser.node.Node;
+import com.pixelsapphire.silicon.sicd.parser.node.literal.ListNode;
+import com.pixelsapphire.silicon.sicd.parser.node.literal.StringLiteralNode;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public class ComponentDefinitionNode extends SymbolDefinitionNode {
 
     private String name;
-    private TupleNode coordinates;
+    private Node coordinates;
     private ComponentNode definition;
     private ListNode pinout;
 
@@ -18,11 +24,11 @@ public class ComponentDefinitionNode extends SymbolDefinitionNode {
         this.name = name;
     }
 
-    public @NotNull TupleNode getCoordinates() {
+    public @NotNull Node getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(@NotNull TupleNode coordinates) {
+    public void setCoordinates(@NotNull Node coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -43,7 +49,12 @@ public class ComponentDefinitionNode extends SymbolDefinitionNode {
     }
 
     @Override
-    public @NotNull Type getType() {
-        return Type.COMPONENT_DEFINITION;
+    public @NotNull Node.Type getType() {
+        return Node.Type.COMPONENT_DEFINITION;
+    }
+
+    public Optional<Integer> getPinNumber(@NotNull StringLiteralNode name) {
+        final int number = pinout.getElements().indexOf(name);
+        return number == -1 ? Optional.empty() : Optional.of(number + 1);
     }
 }

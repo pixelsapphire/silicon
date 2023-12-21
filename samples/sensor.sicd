@@ -1,3 +1,10 @@
 # priority encoder
 component encoder is dip_chip(pins: 16, label: '74HC148') at (0,0);
 encoder pinout is ['4','5','6','7','EI','A2','A1','GND','A0','0','1','2','3','GS','EO','VCC'];
+point encoder_1 is encoder['1'] + (0,-0.3);
+point encoder_2 is encoder['2'] + (0,-0.2);
+point encoder_3 is encoder['3'] + (0,-0.1);
+point encoder_4 is encoder['4'] + (0,0.1);
+point encoder_5 is encoder['5'] + (0,0.2);
+point encoder_6 is encoder['6'] + (0,0.3);
+point encoder_7 is encoder['7'] + (0,0.4);

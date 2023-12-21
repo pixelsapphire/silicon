@@ -49,6 +49,10 @@ public class KeywordToken extends ValuedToken {
          * The {@code pinout} keyword.
          */
         PINOUT,
+        /**
+         * The {@code point} keyword.
+         */
+        POINT,
         ;
 
         /**

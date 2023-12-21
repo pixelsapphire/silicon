@@ -1,7 +1,7 @@
 \begin{figure}[tbh!]
 \centering\scalebox{1}{
 \begin{tikzpicture}[/tikz/circuitikz/multipoles/dipchip/width=1.4,/tikz/circuitikz/bipoles/length=0.5in,line width=0.75pt]
-\draw node[dipchip,num pins=16,rotate=90,hide numbers,external pins width=0] at (0,0) (encoder) {\rotatebox[origin=c]{-90}{\texttt{74HC148}}} 
+\draw node[dipchip,num pins=16,rotate=90,hide numbers,external pins width=0] at (0,-0) (encoder) {\rotatebox[origin=c]{-90}{\texttt{74HC148}}} 
 node[above] at (encoder.bpin 1){\rotatebox[origin=c]{90}{\scriptsize{\texttt{4}}}}
 node[above] at (encoder.bpin 2){\rotatebox[origin=c]{90}{\scriptsize{\texttt{5}}}}
 node[above] at (encoder.bpin 3){\rotatebox[origin=c]{90}{\scriptsize{\texttt{6}}}}
@@ -18,6 +18,13 @@ node[below] at (encoder.bpin 13){\rotatebox[origin=c]{90}{\scriptsize{\texttt{3}
 node[below] at (encoder.bpin 14){\rotatebox[origin=c]{90}{\scriptsize{\texttt{GS}}}}
 node[below] at (encoder.bpin 15){\rotatebox[origin=c]{90}{\scriptsize{\texttt{EO}}}}
 node[below] at (encoder.bpin 16){\rotatebox[origin=c]{90}{\scriptsize{\texttt{VCC}}}};
+\draw (encoder.bpin 11)++(0,--0.3) coordinate(encoder-1);
+\draw (encoder.bpin 12)++(0,--0.2) coordinate(encoder-2);
+\draw (encoder.bpin 13)++(0,--0.1) coordinate(encoder-3);
+\draw (encoder.bpin 1)++(0,-0.1) coordinate(encoder-4);
+\draw (encoder.bpin 2)++(0,-0.2) coordinate(encoder-5);
+\draw (encoder.bpin 3)++(0,-0.3) coordinate(encoder-6);
+\draw (encoder.bpin 4)++(0,-0.4) coordinate(encoder-7);
 \end{tikzpicture}
 }
 \end{figure}

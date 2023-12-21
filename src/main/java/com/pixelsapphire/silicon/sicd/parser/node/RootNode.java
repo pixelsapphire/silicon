@@ -1,5 +1,6 @@
 package com.pixelsapphire.silicon.sicd.parser.node;
 
+import com.pixelsapphire.silicon.sicd.parser.node.definition.SymbolDefinitionNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
