@@ -1,0 +1,23 @@
+\begin{figure}[tbh!]
+\centering\scalebox{1}{
+\begin{tikzpicture}[/tikz/circuitikz/multipoles/dipchip/width=1.4,/tikz/circuitikz/bipoles/length=0.5in,line width=0.75pt]
+\draw node[dipchip,num pins=16,rotate=90,hide numbers,external pins width=0] at (0,0) (encoder) {\rotatebox[origin=c]{-90}{\texttt{74HC148}}} 
+node[above] at (encoder.bpin 1){\rotatebox[origin=c]{90}{\scriptsize{\texttt{4}}}}
+node[above] at (encoder.bpin 2){\rotatebox[origin=c]{90}{\scriptsize{\texttt{5}}}}
+node[above] at (encoder.bpin 3){\rotatebox[origin=c]{90}{\scriptsize{\texttt{6}}}}
+node[above] at (encoder.bpin 4){\rotatebox[origin=c]{90}{\scriptsize{\texttt{7}}}}
+node[above] at (encoder.bpin 5){\rotatebox[origin=c]{90}{\scriptsize{\texttt{EI}}}}
+node[above] at (encoder.bpin 6){\rotatebox[origin=c]{90}{\scriptsize{\texttt{A2}}}}
+node[above] at (encoder.bpin 7){\rotatebox[origin=c]{90}{\scriptsize{\texttt{A1}}}}
+node[above] at (encoder.bpin 8){\rotatebox[origin=c]{90}{\scriptsize{\texttt{GND}}}}
+node[below] at (encoder.bpin 9){\rotatebox[origin=c]{90}{\scriptsize{\texttt{A0}}}}
+node[below] at (encoder.bpin 10){\rotatebox[origin=c]{90}{\scriptsize{\texttt{0}}}}
+node[below] at (encoder.bpin 11){\rotatebox[origin=c]{90}{\scriptsize{\texttt{1}}}}
+node[below] at (encoder.bpin 12){\rotatebox[origin=c]{90}{\scriptsize{\texttt{2}}}}
+node[below] at (encoder.bpin 13){\rotatebox[origin=c]{90}{\scriptsize{\texttt{3}}}}
+node[below] at (encoder.bpin 14){\rotatebox[origin=c]{90}{\scriptsize{\texttt{GS}}}}
+node[below] at (encoder.bpin 15){\rotatebox[origin=c]{90}{\scriptsize{\texttt{EO}}}}
+node[below] at (encoder.bpin 16){\rotatebox[origin=c]{90}{\scriptsize{\texttt{VCC}}}};
+\end{tikzpicture}
+}
+\end{figure}

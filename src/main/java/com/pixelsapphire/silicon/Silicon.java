@@ -9,9 +9,9 @@ public class Silicon {
 
     public static void main(String[] args) {
 
-        final SiCDFileAdapter input = new SiCDFileAdapter("sensor.sicd");
+        final SiCDFileAdapter input = new SiCDFileAdapter("samples/sensor.sicd");
         // final SourceOutput output = System.out::println;
-        final SourceOutput output = new FileSourceOutput("sensor.tex");
+        final SourceOutput output = new FileSourceOutput("samples/sensor.tex");
         final var task = new CompilationTask(input, output);
         task.run();
     }

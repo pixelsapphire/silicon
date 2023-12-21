@@ -1,0 +1,3 @@
+# priority encoder
+component encoder is dip_chip(pins: 16, label: '74HC148') at (0,0);
+encoder pinout is ['4','5','6','7','EI','A2','A1','GND','A0','0','1','2','3','GS','EO','VCC'];
