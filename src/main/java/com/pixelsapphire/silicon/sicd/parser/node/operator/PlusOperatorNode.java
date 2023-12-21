@@ -7,9 +7,13 @@ public class PlusOperatorNode extends Node {
 
     private final Node left, right;
 
-    public PlusOperatorNode(@NotNull Node left, @NotNull Node right) {
+    private PlusOperatorNode(@NotNull Node left, @NotNull Node right) {
         this.left = left;
         this.right = right;
+    }
+
+    public static @NotNull PlusOperatorNode binary(@NotNull Node left, @NotNull Node right) {
+        return new PlusOperatorNode(left, right);
     }
 
     public @NotNull Node getLeft() {

@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+@SuppressWarnings("SuspiciousNameCombination")
 public class Coordinates {
 
     public static @NotNull String compileCoordinates(@NotNull Node coordinates, @NotNull RootNode root) {
@@ -22,8 +23,9 @@ public class Coordinates {
                 if (pair.getChildren().size() != 2)
                     throw new CompilationException("Expected 2 coordinates, got " + pair.getChildren().size(),
                                                    pair.getLocationOrUnknown());
-                return "(" + CommonNodes.compileExpression(pair.getChildren().get(0)) +
-                       "," + CommonNodes.compileExpression(new MinusOperatorNode(null, pair.getChildren().get(1))) + ")";
+                final Node x = pair.getChildren().get(0), y = pair.getChildren().get(1);
+                return "(" + CommonNodes.compileExpression(x) +
+                       "," + CommonNodes.compileExpression(MinusOperatorNode.unary(y)) + ")";
             }
             case final PlusOperatorNode plus -> {
                 return compileCoordinates(plus.getLeft(), root) + "++" + compileCoordinates(plus.getRight(), root);

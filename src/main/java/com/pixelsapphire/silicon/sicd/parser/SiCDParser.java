@@ -133,13 +133,12 @@ public class SiCDParser {
     private @NotNull Node parseExpression(@NotNull NodeVisitor cursor) {
         if (cursor.peekType() == Token.Type.MINUS) {
             cursor.consume(Token.Type.MINUS);
-            final Node right = parseExpression(cursor);
-            return new MinusOperatorNode(null, right).at(cursor.peekLocation(-1));
+            return MinusOperatorNode.unary(parseExpression(cursor)).at(cursor.peekLocation(-1));
         } else {
             final Node left = parseValue(cursor);
             final BiFunction<Node, Node, Node> binaryOperatorBuilder;
-            if (cursor.peekType() == Token.Type.PLUS) binaryOperatorBuilder = PlusOperatorNode::new;
-            else if (cursor.peekType() == Token.Type.MINUS) binaryOperatorBuilder = MinusOperatorNode::new;
+            if (cursor.peekType() == Token.Type.PLUS) binaryOperatorBuilder = PlusOperatorNode::binary;
+            else if (cursor.peekType() == Token.Type.MINUS) binaryOperatorBuilder = MinusOperatorNode::binary;
             else return left;
             cursor.consume();
             return binaryOperatorBuilder.apply(left, parseExpression(cursor)).at(left.getLocationOrUnknown());
