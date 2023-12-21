@@ -128,6 +128,6 @@ public class ValuelessToken extends Token {
 
     @Override
     public String toString() {
-        return type.toString();
+        return type.symbol;
     }
 }

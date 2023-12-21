@@ -40,62 +40,69 @@ public abstract class Token implements Location {
         /**
          * A SiCD keyword token.
          */
-        KEYWORD,
+        KEYWORD(null),
         /**
          * An identifier token.
          */
-        IDENTIFIER,
+        IDENTIFIER(null),
         /**
          * A string token.
          */
-        STRING,
+        STRING(null),
         /**
          * A number token.
          */
-        NUMBER,
+        NUMBER(null),
         /**
          * A left bracket ({@code [}) token.
          */
-        LBRACKET,
+        LBRACKET("["),
         /**
          * A right bracket ({@code ]}) token.
          */
-        RBRACKET,
+        RBRACKET("]"),
         /**
          * A left parenthesis ({@code (}) token.
          */
-        LPAREN,
+        LPAREN("("),
         /**
          * A right parenthesis ({@code )}) token.
          */
-        RPAREN,
+        RPAREN(")"),
         /**
          * A dot ({@code .}) token.
          */
-        DOT,
+        DOT("."),
         /**
          * A comma ({@code ,}) token.
          */
-        COMMA,
+        COMMA(","),
         /**
          * A colon ({@code :}) token.
          */
-        COLON,
+        COLON(":"),
         /**
          * A semicolon ({@code ;}) token.
          */
-        SEMICOLON,
+        SEMICOLON(";"),
         /**
          * An exclamation mark ({@code !}) token.
          */
-        EXCLAMATION_MARK,
+        EXCLAMATION_MARK("!"),
         /**
          * A plus ({@code +}) token.
          */
-        PLUS,
+        PLUS("+"),
         /**
          * A plus ({@code -}) token.
          */
-        MINUS,
+        MINUS("-"),
+        ;
+
+        public final String symbol;
+
+        Type(@Nullable String symbol) {
+            this.symbol = symbol;
+        }
     }
 }

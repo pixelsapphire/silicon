@@ -34,6 +34,6 @@ public abstract class ValuedToken extends Token {
 
     @Override
     public String toString() {
-        return getType() + ": " + value;
+        return value;
     }
 }
