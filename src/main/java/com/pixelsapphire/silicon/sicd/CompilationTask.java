@@ -38,9 +38,9 @@ public class CompilationTask {
             final var compiled = new RawLaTeX(compiler.compile());
 
             final var picture = LaTeXSequence.of("\n", defaultTiKZPicture.append(compiled), "\n")
-                                             .wrapWith(new LaTeXCommand("scalebox").withRequiredArgument("1"));
+                                             .wrappedWith(new LaTeXCommand("scalebox").withRequiredArgument("1"));
             final var figure = LaTeXSequence.of(new LaTeXCommand("centering"), picture)
-                                            .wrapWith(new LaTeXEnvironment("figure").withOption("tbh!"));
+                                            .wrappedWith(new LaTeXEnvironment("figure").withOption("tbh!"));
             output.write(figure.translate());
 
         } catch (final SiliconSourceException error) {

@@ -9,7 +9,7 @@ public interface LaTeX {
     @NotNull String translate();
 
     @SuppressWarnings("unchecked")
-    default <T extends LaTeXWrapper> @NotNull T wrapWith(@NotNull T wrapper) {
+    default <T extends LaTeXWrapper> @NotNull T wrappedWith(@NotNull T wrapper) {
         return (T) wrapper.wrap(this);
     }
 }

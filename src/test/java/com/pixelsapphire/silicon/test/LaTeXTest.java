@@ -67,7 +67,7 @@ public class LaTeXTest {
         final LaTeXMathMode math = new LaTeXCommand("operatorname")
                 .withRequiredArgument("sin")
                 .withRequiredArgument(new LaTeXCommand("alpha"))
-                .wrapWith(LaTeXMathMode.display());
+                .wrappedWith(LaTeXMathMode.display());
         assertEquals("$$\\operatorname{sin}{\\alpha}$$", math.translate());
     }
 }

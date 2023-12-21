@@ -44,9 +44,9 @@ public class Components {
 
                 LaTeX pinLabel = new LaTeXCommand("texttt").withRequiredArgument(pin.getLiteral());
                 if (pin instanceof final StringLiteralNode name && name.isNegated())
-                    pinLabel = pinLabel.wrapWith(new LaTeXCommand("overline")).wrapWith(LaTeXMathMode.inline());
-                pinLabel = pinLabel.wrapWith(new LaTeXCommand("scriptsize"))
-                                   .wrapWith(new LaTeXCommand("rotatebox").withOptionalArgument("origin", "c").withRequiredArgument("90"));
+                    pinLabel = pinLabel.wrappedWith(new LaTeXCommand("overline")).wrappedWith(LaTeXMathMode.inline());
+                pinLabel = pinLabel.wrappedWith(new LaTeXCommand("scriptsize"))
+                                   .wrappedWith(new LaTeXCommand("rotatebox").withOptionalArgument("origin", "c").withRequiredArgument("90"));
 
                 pinout.append("\nnode[").append(i < half ? firstHalf : secondHalf).append("] at (")
                       .append(component.getName()).append(".bpin ").append(i + 1)
