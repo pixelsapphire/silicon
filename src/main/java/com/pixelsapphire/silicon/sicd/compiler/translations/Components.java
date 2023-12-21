@@ -17,7 +17,7 @@ public class Components {
 
     public static @NotNull String compileDipChip(@NotNull ComponentDefinitionNode component, @NotNull RootNode root) {
 
-        final ParametersListNode params = component.getDefinition().getParameters();
+        final ParametersListNode params = component.getInitializer().getParameters();
         final Node label = params.get("label").orElse(new StringLiteralNode(""));
         final Node pins = params.get("pins").orElseThrow(() -> new UndefinedParameterException("pins", params));
 

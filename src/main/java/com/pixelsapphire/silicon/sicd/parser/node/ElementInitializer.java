@@ -2,12 +2,12 @@ package com.pixelsapphire.silicon.sicd.parser.node;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ComponentNode extends Node {
+public class ElementInitializer extends Node {
 
     private final String name;
     private ParametersListNode parameters;
 
-    public ComponentNode(@NotNull String name) {
+    public ElementInitializer(@NotNull String name) {
         this.name = name;
         this.parameters = new ParametersListNode();
     }

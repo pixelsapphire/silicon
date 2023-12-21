@@ -28,9 +28,9 @@ public class CommonNodes {
 
     public static @NotNull String compileComponent(@NotNull ComponentDefinitionNode componentDefinition,
                                                    @NotNull RootNode root) {
-        return switch (componentDefinition.getDefinition().getName()) {
+        return switch (componentDefinition.getInitializer().getName()) {
             case "dip_chip" -> Components.compileDipChip(componentDefinition, root);
-            default -> throw new CompilationException("Unexpected component: " + componentDefinition.getDefinition().getName(),
+            default -> throw new CompilationException("Unexpected component: " + componentDefinition.getInitializer().getName(),
                                                       componentDefinition.getLocationOrUnknown());
         };
     }

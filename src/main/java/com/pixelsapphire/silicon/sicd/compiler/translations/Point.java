@@ -9,12 +9,12 @@ import org.jetbrains.annotations.NotNull;
 public class Point {
 
     public static @NotNull String compilePoint(@NotNull PointDefinitionNode pointDefinition, @NotNull RootNode root) {
-        final var component = pointDefinition.getComponent();
+        final var initializer = pointDefinition.getInitializer();
         String coordinates = "\n\\draw " + Coordinates.compileCoordinates(pointDefinition.getCoordinates(), root) +
                              " coordinate(" + pointDefinition.getName().replace("_", "-") + ")";
-        if (component != null) {
-            final var params = component.getParameters();
-            switch (component.getName()) {
+        if (initializer != null) {
+            final var params = initializer.getParameters();
+            switch (initializer.getName()) {
                 case "terminal" -> {
                     coordinates += " to[short,-o]++(0,0)";
                     final var label = params.get("label");
@@ -25,8 +25,8 @@ public class Point {
                                                             label.get().getLocationOrUnknown());
                     }
                 }
-                default -> throw new CompilationException("Unsupported point type: " + component.getName(),
-                                                          component.getLocation());
+                default -> throw new CompilationException("Unsupported point type: " + initializer.getName(),
+                                                          initializer.getLocation());
             }
         }
         return coordinates + ";";

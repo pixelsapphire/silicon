@@ -1,6 +1,6 @@
 package com.pixelsapphire.silicon.sicd.parser.node.definition;
 
-import com.pixelsapphire.silicon.sicd.parser.node.ComponentNode;
+import com.pixelsapphire.silicon.sicd.parser.node.ElementInitializer;
 import com.pixelsapphire.silicon.sicd.parser.node.Node;
 import com.pixelsapphire.silicon.sicd.parser.node.literal.ListNode;
 import com.pixelsapphire.silicon.sicd.parser.node.literal.StringLiteralNode;
@@ -12,7 +12,7 @@ public class ComponentDefinitionNode extends SymbolDefinitionNode {
 
     private String name;
     private Node coordinates;
-    private ComponentNode definition;
+    private ElementInitializer initializer;
     private ListNode pinout;
 
     @Override
@@ -32,12 +32,12 @@ public class ComponentDefinitionNode extends SymbolDefinitionNode {
         this.coordinates = coordinates;
     }
 
-    public @NotNull ComponentNode getDefinition() {
-        return definition;
+    public @NotNull ElementInitializer getInitializer() {
+        return initializer;
     }
 
-    public void setDefinition(@NotNull ComponentNode definition) {
-        this.definition = definition;
+    public void setInitializer(@NotNull ElementInitializer initializer) {
+        this.initializer = initializer;
     }
 
     public ListNode getPinout() {

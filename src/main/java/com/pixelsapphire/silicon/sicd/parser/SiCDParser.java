@@ -54,7 +54,7 @@ public class SiCDParser {
         final IdentifierToken name = cursor.consume(Token.Type.IDENTIFIER);
         definition.setName(name.getValue());
         cursor.consumeKeyword("is");
-        definition.setDefinition(parseComponent(cursor));
+        definition.setInitializer(parseInitializer(cursor));
         cursor.consumeKeyword("at");
         definition.setCoordinates(parseExpression(cursor));
         cursor.consume(Token.Type.SEMICOLON);
@@ -77,16 +77,16 @@ public class SiCDParser {
         final IdentifierToken name = cursor.consume(Token.Type.IDENTIFIER);
         definition.setName(name.getValue());
         cursor.consumeKeyword("is");
-        if (cursor.peekType() == Token.Type.IDENTIFIER) definition.setComponent(parseComponent(cursor));
+        if (cursor.peekType() == Token.Type.IDENTIFIER) definition.setInitializer(parseInitializer(cursor));
         cursor.consumeKeyword("at");
         definition.setCoordinates(parseExpression(cursor));
         cursor.consume(Token.Type.SEMICOLON);
         root.addNode(definition);
     }
 
-    private @NotNull ComponentNode parseComponent(@NotNull NodeVisitor cursor) {
+    private @NotNull ElementInitializer parseInitializer(@NotNull NodeVisitor cursor) {
         final IdentifierToken name = cursor.consume(Token.Type.IDENTIFIER);
-        final ComponentNode component = new ComponentNode(name.getValue());
+        final ElementInitializer component = new ElementInitializer(name.getValue());
         component.setLocation(name.getLocationOrUnknown());
         component.setParameters(parseParametersList(cursor));
         return component;
