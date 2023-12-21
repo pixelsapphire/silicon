@@ -167,7 +167,6 @@ public class SiCDParser {
     private @NotNull Node parseIdentifier(@NotNull NodeVisitor cursor) {
         final IdentifierToken identifier = cursor.consume(Token.Type.IDENTIFIER);
         final Node node = switch (cursor.peekType()) {
-            case LPAREN -> new FunctionCallNode(identifier.getValue(), parseParametersList(cursor));
             case LBRACKET -> new SubscriptOperatorNode(identifier.getValue(), parseList(cursor));
             default -> new IdentifierReferenceNode(identifier.getValue());
         };
