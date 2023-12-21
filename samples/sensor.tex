@@ -25,6 +25,9 @@ node[below] at (encoder.bpin 16){\rotatebox[origin=c]{90}{\scriptsize{\texttt{VC
 \draw (encoder.bpin 2)++(0,-0.2) coordinate(encoder-5);
 \draw (encoder.bpin 3)++(0,-0.3) coordinate(encoder-6);
 \draw (encoder.bpin 4)++(0,-0.4) coordinate(encoder-7);
+\draw (3,--2) coordinate(probe-1) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P1}}}};
+\draw (3,--2)++(0,-0.25) coordinate(probe-2) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P2}}}};
+\draw (3,--2)++(0,-0.5) coordinate(probe-3) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P3}}}};
 \end{tikzpicture}
 }
 \end{figure}

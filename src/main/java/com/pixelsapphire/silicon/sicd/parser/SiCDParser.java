@@ -77,6 +77,8 @@ public class SiCDParser {
         final IdentifierToken name = cursor.consume(Token.Type.IDENTIFIER);
         definition.setName(name.getValue());
         cursor.consumeKeyword("is");
+        if (cursor.peekType() == Token.Type.IDENTIFIER) definition.setComponent(parseComponent(cursor));
+        cursor.consumeKeyword("at");
         definition.setCoordinates(parseExpression(cursor));
         cursor.consume(Token.Type.SEMICOLON);
         root.addNode(definition);

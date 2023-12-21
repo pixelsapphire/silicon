@@ -1,6 +1,6 @@
 package com.pixelsapphire.silicon.sicd.compiler;
 
-import com.pixelsapphire.silicon.sicd.compiler.translations.Components;
+import com.pixelsapphire.silicon.sicd.compiler.translations.CommonNodes;
 import com.pixelsapphire.silicon.sicd.compiler.translations.Point;
 import com.pixelsapphire.silicon.sicd.parser.node.Node;
 import com.pixelsapphire.silicon.sicd.parser.node.RootNode;
@@ -20,7 +20,7 @@ public class SiCDCompiler {
         final StringBuilder code = new StringBuilder();
         for (final Node node : circuit.getNodes()) {
             if (node instanceof final ComponentDefinitionNode componentDefinition)
-                code.append(Components.compileComponent(componentDefinition, circuit));
+                code.append(CommonNodes.compileComponent(componentDefinition, circuit));
             else if (node instanceof final PointDefinitionNode pointDefinition)
                 code.append(Point.compilePoint(pointDefinition, circuit));
             else throw new CompilationException("Unexpected node: " + node.getType(), node.getLocationOrUnknown());

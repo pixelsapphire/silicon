@@ -4,10 +4,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class IdentifierReferenceNode extends Node {
 
-    private String name;
+    private final String name;
 
     public IdentifierReferenceNode(@NotNull String name) {
         this.name = name;
+    }
+
+    public @NotNull String getName() {
+        return name;
     }
 
     @Override
