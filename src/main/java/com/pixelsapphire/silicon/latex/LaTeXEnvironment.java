@@ -68,7 +68,8 @@ public class LaTeXEnvironment extends LaTeXWrapper {
     }
 
     public LaTeXEnvironment append(@NotNull LaTeX content) {
-        this.content = new LaTeXSequence().append(this.content).append(content);
+        if (this.content instanceof final LaTeXSequence sequence) sequence.append(content);
+        else this.content = new LaTeXSequence().append(this.content).append(content);
         return this;
     }
 

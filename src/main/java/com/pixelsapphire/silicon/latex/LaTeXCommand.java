@@ -67,7 +67,6 @@ public class LaTeXCommand extends LaTeXWrapper {
                   ? "" : "[" + optionalArguments.entrySet().stream()
                                                 .map(e -> e.getKey() + "=" + e.getValue().translate())
                                                 .reduce("", (a, b) -> a + "," + b).substring(1) + "]")
-               // each required argument is enclosed in separate curly braces
                + (requiredArguments.isEmpty()
                   ? "" : requiredArguments.stream()
                                           .map(a -> "{" + a.translate() + "}")
