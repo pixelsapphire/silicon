@@ -49,7 +49,7 @@ public class Coordinates {
                 final var point = root.<PointDefinitionNode>getSymbol(identifier.getName(), Node.Type.POINT_DEFINITION)
                                       .orElseThrow(() -> new CompilationException("Unknown point: " + identifier.getName(),
                                                                                   identifier.getLocationOrUnknown()));
-                return compileCoordinates(Objects.requireNonNull(point).getCoordinates(), root);
+                return "(" + TextTransform.u2d(Objects.requireNonNull(point).getName()) + ")";
             }
             case final SubscriptOperatorNode subscript -> {
                 final var component = root.<ComponentDefinitionNode>getSymbol(subscript.getIdentifier(), Node.Type.COMPONENT_DEFINITION)
