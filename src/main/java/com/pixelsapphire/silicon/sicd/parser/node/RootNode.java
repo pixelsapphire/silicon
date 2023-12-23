@@ -18,8 +18,13 @@ public class RootNode extends Node {
     }
 
     public void addNode(@NotNull Node node) {
+        if (node instanceof final SymbolDefinitionNode symbol) {
+            if (symbols.containsKey(symbol.getName()))
+                throw new CompilationException(symbol.getName() + " is already defined as " + symbol.getType(),
+                                               Objects.requireNonNull(symbol.getLocation()));
+            symbols.put(symbol.getName(), symbol);
+        }
         nodes.add(node);
-        if (node instanceof final SymbolDefinitionNode symbol) symbols.put(symbol.getName(), symbol);
     }
 
     @UnmodifiableView
@@ -32,10 +37,6 @@ public class RootNode extends Node {
         if (!symbols.containsKey(name)) return Optional.empty();
         if (symbols.get(name).getType() != type) throw new IllegalArgumentException("Symbol " + name + " is not " + type);
         return Optional.ofNullable((T) symbols.get(name));
-    }
-
-    public boolean isDefined(@NotNull String name) {
-        return symbols.containsKey(name);
     }
 
     @Override
