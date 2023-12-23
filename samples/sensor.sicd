@@ -9,6 +9,9 @@ point encoder_5 is junction() at encoder['5']+(0, 0.5);
 point encoder_6 is junction() at encoder['6']+(0, 0.75);
 point encoder_7 is junction() at encoder['7']+(0, 1);
 # output terminals
-point probe_1 is terminal(label: 'P1') at (        3, encoder_1.y);
-point probe_2 is terminal(label: 'P2') at (probe_1.x, encoder_2.y);
-point probe_3 is terminal(label: 'P3') at (probe_1.x, encoder_3.y);
+point probe_1 is terminal(label: 'P1') at (        3,encoder_1.y);
+point probe_2 is terminal(label: 'P2') at (probe_1.x,encoder_2.y);
+point probe_3 is terminal(label: 'P3') at (probe_1.x,encoder_3.y);
+wire through [encoder['1'],encoder_1,probe_1];
+wire through [encoder['2'],encoder_2,probe_2];
+wire through [encoder['3'],encoder_3,probe_3];

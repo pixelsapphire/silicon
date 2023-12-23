@@ -39,7 +39,7 @@ public class RootNode extends Node {
     }
 
     @UnmodifiableView
-    public @NotNull List<Node> getNodes() {
+    public @NotNull List<@NotNull Node> getNodes() {
         return Collections.unmodifiableList(nodes);
     }
 

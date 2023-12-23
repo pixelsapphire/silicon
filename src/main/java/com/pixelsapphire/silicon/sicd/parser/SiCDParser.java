@@ -40,7 +40,8 @@ public class SiCDParser {
             final KeywordToken keyword = cursor.consume(Token.Type.KEYWORD);
             if (keyword.getValue().equals(Keyword.COMPONENT.toString())) parseComponentDefinition(root, cursor);
             else if (keyword.getValue().equals(Keyword.POINT.toString())) parsePointDefinition(root, cursor);
-            else throwError(cursor.token);
+            else if (keyword.getValue().equals(Keyword.WIRE.toString())) parseWire(root, cursor);
+            else throwError(cursor.token - 1);
         } else if (cursor.peekType() == Token.Type.IDENTIFIER) {
             parsePinoutDefinition(root, cursor);
         } else {
@@ -53,9 +54,9 @@ public class SiCDParser {
         definition.setLocation(cursor.peekLocation(-1));
         final IdentifierToken name = cursor.consume(Token.Type.IDENTIFIER);
         definition.setName(name.getValue());
-        cursor.consumeKeyword("is");
+        cursor.consumeKeyword(Keyword.IS);
         definition.setInitializer(parseInitializer(cursor));
-        cursor.consumeKeyword("at");
+        cursor.consumeKeyword(Keyword.AT);
         definition.setCoordinates(parseExpression(cursor));
         cursor.consume(Token.Type.SEMICOLON);
         root.addNode(definition);
@@ -65,8 +66,8 @@ public class SiCDParser {
         final IdentifierToken identifier = cursor.consume(Token.Type.IDENTIFIER);
         final Optional<ComponentDefinitionNode> definition = root.getSymbol(identifier.getValue(), Node.Type.COMPONENT_DEFINITION);
         if (definition.isEmpty()) throwUndefinedError(cursor.token - 1, identifier.getValue());
-        cursor.consumeKeyword(Keyword.PINOUT.toString());
-        cursor.consumeKeyword(Keyword.IS.toString());
+        cursor.consumeKeyword(Keyword.PINOUT);
+        cursor.consumeKeyword(Keyword.IS);
         definition.get().setPinout(parseList(cursor));
         cursor.consume(Token.Type.SEMICOLON);
     }
@@ -76,12 +77,18 @@ public class SiCDParser {
         definition.setLocation(cursor.peekLocation(-1));
         final IdentifierToken name = cursor.consume(Token.Type.IDENTIFIER);
         definition.setName(name.getValue());
-        cursor.consumeKeyword("is");
+        cursor.consumeKeyword(Keyword.IS);
         if (cursor.peekType() == Token.Type.IDENTIFIER) definition.setInitializer(parseInitializer(cursor));
-        cursor.consumeKeyword("at");
+        cursor.consumeKeyword(Keyword.AT);
         definition.setCoordinates(parseExpression(cursor));
         cursor.consume(Token.Type.SEMICOLON);
         root.addNode(definition);
+    }
+
+    private void parseWire(@NotNull RootNode root, @NotNull NodeVisitor cursor) {
+        cursor.consumeKeyword(Keyword.THROUGH);
+        root.addNode(new WireNode(parseList(cursor)).at(cursor.peekLocation(-1)));
+        cursor.consume(Token.Type.SEMICOLON);
     }
 
     private @NotNull ElementInitializer parseInitializer(@NotNull NodeVisitor cursor) {
@@ -196,9 +203,9 @@ public class SiCDParser {
             return this.token < position;
         }
 
-        private void consumeKeyword(@NotNull String keyword) {
+        private void consumeKeyword(@NotNull Keyword keyword) {
             final KeywordToken token = consume(Token.Type.KEYWORD);
-            if (!token.getValue().equals(keyword)) throwError(this.token - 1);
+            if (!token.getValue().equals(keyword.toString())) throwError(this.token - 1);
         }
 
         @SuppressWarnings("unchecked")

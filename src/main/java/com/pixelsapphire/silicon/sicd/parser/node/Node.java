@@ -44,5 +44,6 @@ public abstract class Node implements Location {
         TUPLE,
         ROOT,
         UNARY_OPERATION,
+        WIRE,
     }
 }

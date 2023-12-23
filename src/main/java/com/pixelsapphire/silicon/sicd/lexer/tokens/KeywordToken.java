@@ -53,6 +53,14 @@ public class KeywordToken extends ValuedToken {
          * The {@code point} keyword.
          */
         POINT,
+        /**
+         * The {@code through} keyword.
+         */
+        THROUGH,
+        /**
+         * The {@code wire} keyword.
+         */
+        WIRE,
         ;
 
         /**
@@ -67,7 +75,7 @@ public class KeywordToken extends ValuedToken {
         }
 
         /**
-         * Returns the string representation of this keyword.
+         * Returns the string (lowercase) representation of this keyword.
          *
          * @return the string representation of this keyword
          */
