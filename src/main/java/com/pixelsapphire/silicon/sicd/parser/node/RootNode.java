@@ -17,12 +17,14 @@ public class RootNode extends Node {
     private final List<Node> nodes;
     private final Map<String, Node> symbols;
     private final List<Consumer<String>> codeInsertionListeners;
+    private final Map<String, String> shortIdentifiers;
     private final Set<String> requestedCoordinates;
 
     public RootNode() {
         nodes = new ArrayList<>();
         symbols = new LinkedHashMap<>();
         codeInsertionListeners = new ArrayList<>();
+        shortIdentifiers = new HashMap<>();
         requestedCoordinates = new HashSet<>();
     }
 
@@ -48,12 +50,18 @@ public class RootNode extends Node {
         return Optional.ofNullable((T) symbols.get(name));
     }
 
+    public @NotNull String requestShortId(@NotNull String id) {
+        if (!shortIdentifiers.containsKey(id))
+            shortIdentifiers.put(id, "SI" + TextTransform.encodeAsPseudoHexBytes(shortIdentifiers.size()));
+        return shortIdentifiers.get(id);
+    }
+
     public void insertCoordinatesRequest(@NotNull Set<String> points) {
         points.stream().filter(s -> !requestedCoordinates.contains(s)).forEach(point -> insertCode(
                 new LaTeXCommand("gettikzxy")
                         .withRequiredArgument(new RawLaTeX("(" + point + ")"))
-                        .withRequiredArgument(new LaTeXCommand(TextTransform.encodeAsPseudoHexBytes(point) + "x"))
-                        .withRequiredArgument(new LaTeXCommand(TextTransform.encodeAsPseudoHexBytes(point) + "y"))
+                        .withRequiredArgument(new LaTeXCommand(requestShortId(point) + "x"))
+                        .withRequiredArgument(new LaTeXCommand(requestShortId(point) + "y"))
                         .translate() + ";"));
         requestedCoordinates.addAll(points);
     }

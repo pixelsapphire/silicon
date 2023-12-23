@@ -30,12 +30,14 @@ public class Coordinates {
                 Node x = pair.getChildren().get(0), y = pair.getChildren().get(1);
                 final Set<String> requestedCoordinates = new HashSet<>();
                 if (x instanceof final MemberReferenceNode xRef) {
-                    x = new StringLiteralNode("\\" + TextTransform.encodeAsPseudoHexBytes(TextTransform.u2d(xRef.getParent())) + "x");
-                    requestedCoordinates.add(TextTransform.u2d(xRef.getParent()));
+                    final var xName = TextTransform.u2d(xRef.getParent());
+                    x = new StringLiteralNode("\\" + root.requestShortId(xName) + "x");
+                    requestedCoordinates.add(xName);
                 }
                 if (y instanceof final MemberReferenceNode yRef) {
-                    y = new StringLiteralNode("-\\" + TextTransform.encodeAsPseudoHexBytes(TextTransform.u2d(yRef.getParent())) + "y");
-                    requestedCoordinates.add(TextTransform.u2d(yRef.getParent()));
+                    final var yName = TextTransform.u2d(yRef.getParent());
+                    y = new StringLiteralNode("-\\" + root.requestShortId(yName) + "y");
+                    requestedCoordinates.add(yName);
                 }
                 root.insertCoordinatesRequest(requestedCoordinates);
                 return "(" + CommonNodes.compileExpression(x) + "," + CommonNodes.compileExpression(MinusOperatorNode.unary(y)) + ")";
