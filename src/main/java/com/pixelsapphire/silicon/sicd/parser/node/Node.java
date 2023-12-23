@@ -33,6 +33,7 @@ public abstract class Node implements Location {
         FUNCTION_CALL,
         IDENTIFIER_REFERENCE,
         LIST,
+        MEMBER_REFERENCE,
         MINUS_OPERATOR,
         NUMBER_LITERAL,
         PARAMETERS_LIST,

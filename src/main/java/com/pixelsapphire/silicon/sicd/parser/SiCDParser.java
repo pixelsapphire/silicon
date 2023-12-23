@@ -166,6 +166,10 @@ public class SiCDParser {
     private @NotNull Node parseIdentifier(@NotNull NodeVisitor cursor) {
         final IdentifierToken identifier = cursor.consume(Token.Type.IDENTIFIER);
         final Node node = switch (cursor.peekType()) {
+            case DOT -> {
+                cursor.consume(Token.Type.DOT);
+                yield new MemberReferenceNode(identifier.getValue(), parseIdentifier(cursor));
+            }
             case LBRACKET -> new SubscriptOperatorNode(identifier.getValue(), parseList(cursor));
             default -> new IdentifierReferenceNode(identifier.getValue());
         };
