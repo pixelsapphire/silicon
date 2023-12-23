@@ -18,4 +18,9 @@ public class IdentifierReferenceNode extends Node {
     public @NotNull Type getType() {
         return Type.IDENTIFIER_REFERENCE;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
