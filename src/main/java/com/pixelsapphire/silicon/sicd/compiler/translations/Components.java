@@ -32,14 +32,14 @@ public class Components {
             if (node instanceof final LiteralNode pin)
                 pinout.append("\nnode[").append(i < half ? firstHalf : secondHalf).append("] at (")
                       .append(component.getName()).append(".bpin ").append(i + 1)
-                      .append("){").append(CommonNodes.makePinLabel(pin, 90)).append("}");
+                      .append("){").append(CommonLaTeX.makePinLabel(pin, 90)).append("}");
             else throw new CompilationException("Unexpected pin label: " + node.getType(), node.getLocationOrUnknown());
         }
 
         return "\\draw node[dipchip,num pins=" + CommonNodes.compileExpression(Objects.requireNonNull(pins)) +
                ",rotate=90,hide numbers,external pins width=0] at " +
                Coordinates.compileCoordinates(component.getCoordinates(), root) +
-               " (" + component.getName() + ") {" + CommonLaTeX.dipChipLabel(CommonNodes.compileExpression(label)) +
+               " (" + component.getName() + ") {" + CommonLaTeX.makeDipChipLabel(CommonNodes.compileExpression(label)) +
                "} " + pinout + ";";
     }
 }

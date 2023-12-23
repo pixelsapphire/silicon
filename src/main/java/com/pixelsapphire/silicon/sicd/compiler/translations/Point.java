@@ -24,7 +24,7 @@ public class Point {
                     final var label = params.get("label");
                     if (label.isPresent()) {
                         if (label.get() instanceof final LiteralNode literal)
-                            compiled += " node[anchor=west]{" + CommonNodes.makePinLabel(literal, 0) + "}";
+                            compiled += " node[anchor=west]{" + CommonLaTeX.makePinLabel(literal, 0) + "}";
                         else throw new CompilationException("Unsupported label type: " + label.get().getType(),
                                                             label.get().getLocationOrUnknown());
                     }
