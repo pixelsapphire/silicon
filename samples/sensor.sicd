@@ -1,14 +1,14 @@
 # priority encoder
 component encoder is dip_chip(pins: 16, label: '74HC148') at (0,0);
 encoder pinout is ['4','5','6','7','EI','A2','A1','GND','A0','0','1','2','3','GS','EO','VCC'];
-point encoder_1 is junction() at encoder['1'] + (0,-0.6);
-point encoder_2 is junction() at encoder['2'] + (0,-0.4);
-point encoder_3 is junction() at encoder['3'] + (0,-0.2);
-point encoder_4 is junction() at encoder['4'] + (0,0.2);
-point encoder_5 is junction() at encoder['5'] + (0,0.4);
-point encoder_6 is junction() at encoder['6'] + (0,0.6);
-point encoder_7 is junction() at encoder['7'] + (0,0.8);
+point encoder_1 is junction() at encoder['1']+(0,-0.75);
+point encoder_2 is junction() at encoder['2']+(0,-0.5);
+point encoder_3 is junction() at encoder['3']+(0,-0.25);
+point encoder_4 is junction() at encoder['4']+(0, 0.25);
+point encoder_5 is junction() at encoder['5']+(0, 0.5);
+point encoder_6 is junction() at encoder['6']+(0, 0.75);
+point encoder_7 is junction() at encoder['7']+(0, 1);
 # output terminals
-point probe_1 is terminal(label: 'P1') at (3, -2);
-point probe_2 is terminal(label: 'P2') at probe_1 + (0, 0.25);
-point probe_3 is terminal(label: 'P3') at probe_1 + (0, 0.5);
+point probe_1 is terminal(label: 'P1') at (        3, encoder_1.y);
+point probe_2 is terminal(label: 'P2') at (probe_1.x, encoder_2.y);
+point probe_3 is terminal(label: 'P3') at (probe_1.x, encoder_3.y);

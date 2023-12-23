@@ -13,6 +13,11 @@ import com.pixelsapphire.silicon.sicd.parser.SiCDParser;
 
 public class CompilationTask {
 
+    private static final LaTeXSequence getTiKZxy = LaTeXSequence.of(
+            new LaTeXCommand("makeatletter"),
+            new RawLaTeX("\\providecommand{\\gettikzxy}[3]{\\tikz@scan@one@point\\pgfutil@firstofone#1\\relax" +
+                         "\\edef#2{\\the\\pgf@x}\\edef#3{\\the\\pgf@y}}"),
+            new LaTeXCommand("makeatother"));
     private static final LaTeXEnvironment defaultTiKZPicture = new LaTeXEnvironment("tikzpicture")
             .withArgument("/tikz/circuitikz/bipoles/length", "0.5in")
             .withArgument("/tikz/circuitikz/multipoles/dipchip/width", "1.4")
@@ -41,7 +46,7 @@ public class CompilationTask {
                                              .wrappedWith(new LaTeXCommand("scalebox").withRequiredArgument("1"));
             final var figure = LaTeXSequence.of(new LaTeXCommand("centering"), picture)
                                             .wrappedWith(new LaTeXEnvironment("figure").withOption("tbh!"));
-            output.write(figure.translate());
+            output.write(getTiKZxy.translate() + figure.translate());
 
         } catch (final SiliconSourceException error) {
             System.err.println(error.getMessage());

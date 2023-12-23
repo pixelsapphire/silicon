@@ -2,6 +2,7 @@ package com.pixelsapphire.silicon.sicd.compiler.translations;
 
 import com.pixelsapphire.silicon.sicd.compiler.CompilationException;
 import com.pixelsapphire.silicon.sicd.parser.node.IdentifierReferenceNode;
+import com.pixelsapphire.silicon.sicd.parser.node.MemberReferenceNode;
 import com.pixelsapphire.silicon.sicd.parser.node.Node;
 import com.pixelsapphire.silicon.sicd.parser.node.RootNode;
 import com.pixelsapphire.silicon.sicd.parser.node.definition.ComponentDefinitionNode;
@@ -10,9 +11,12 @@ import com.pixelsapphire.silicon.sicd.parser.node.literal.*;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.MinusOperatorNode;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.PlusOperatorNode;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.SubscriptOperatorNode;
+import com.pixelsapphire.silicon.util.TextTransform;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @SuppressWarnings("SuspiciousNameCombination")
 public class Coordinates {
@@ -23,9 +27,18 @@ public class Coordinates {
                 if (pair.getChildren().size() != 2)
                     throw new CompilationException("Expected 2 coordinates, got " + pair.getChildren().size(),
                                                    pair.getLocationOrUnknown());
-                final Node x = pair.getChildren().get(0), y = pair.getChildren().get(1);
-                return "(" + CommonNodes.compileExpression(x) +
-                       "," + CommonNodes.compileExpression(MinusOperatorNode.unary(y)) + ")";
+                Node x = pair.getChildren().get(0), y = pair.getChildren().get(1);
+                final Set<String> requestedCoordinates = new HashSet<>();
+                if (x instanceof final MemberReferenceNode xRef) {
+                    x = new StringLiteralNode("\\" + TextTransform.encodeAsPseudoHexBytes(TextTransform.u2d(xRef.getParent())) + "x");
+                    requestedCoordinates.add(TextTransform.u2d(xRef.getParent()));
+                }
+                if (y instanceof final MemberReferenceNode yRef) {
+                    y = new StringLiteralNode("-\\" + TextTransform.encodeAsPseudoHexBytes(TextTransform.u2d(yRef.getParent())) + "y");
+                    requestedCoordinates.add(TextTransform.u2d(yRef.getParent()));
+                }
+                root.insertCoordinatesRequest(requestedCoordinates);
+                return "(" + CommonNodes.compileExpression(x) + "," + CommonNodes.compileExpression(MinusOperatorNode.unary(y)) + ")";
             }
             case final PlusOperatorNode plus -> {
                 return compileCoordinates(plus.getLeft(), root) + "++" + compileCoordinates(plus.getRight(), root);
@@ -50,7 +63,7 @@ public class Coordinates {
                                 "Pin " + name + " not found in component " + component.getName(), subscript.getLocationOrUnknown()));
                     else throw new CompilationException("Expected a pin name or number, got " + literal.getType(),
                                                         literal.getLocationOrUnknown());
-                    return "(" + Objects.requireNonNull(component).getName().replace("_", "-") + ".bpin " + pin + ")";
+                    return "(" + TextTransform.u2d(component.getName()) + ".bpin " + pin + ")";
                 } else
                     throw new CompilationException("Expected a pin name or number, got " + subscript.getSubscript().getType(),
                                                    subscript.getSubscript().getLocationOrUnknown());

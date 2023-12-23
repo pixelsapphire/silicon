@@ -1,20 +1,29 @@
 package com.pixelsapphire.silicon.sicd.parser.node;
 
+import com.pixelsapphire.silicon.latex.LaTeXCommand;
+import com.pixelsapphire.silicon.latex.RawLaTeX;
+import com.pixelsapphire.silicon.sicd.compiler.CompilationException;
 import com.pixelsapphire.silicon.sicd.parser.node.definition.SymbolDefinitionNode;
+import com.pixelsapphire.silicon.util.TextTransform;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class RootNode extends Node {
 
     private final List<Node> nodes;
     private final Map<String, Node> symbols;
+    private final List<Consumer<String>> codeInsertionListeners;
+    private final Set<String> requestedCoordinates;
 
     public RootNode() {
         nodes = new ArrayList<>();
         symbols = new LinkedHashMap<>();
+        codeInsertionListeners = new ArrayList<>();
+        requestedCoordinates = new HashSet<>();
     }
 
     public void addNode(@NotNull Node node) {
@@ -37,6 +46,24 @@ public class RootNode extends Node {
         if (!symbols.containsKey(name)) return Optional.empty();
         if (symbols.get(name).getType() != type) throw new IllegalArgumentException("Symbol " + name + " is not " + type);
         return Optional.ofNullable((T) symbols.get(name));
+    }
+
+    public void insertCoordinatesRequest(@NotNull Set<String> points) {
+        points.stream().filter(s -> !requestedCoordinates.contains(s)).forEach(point -> insertCode(
+                new LaTeXCommand("gettikzxy")
+                        .withRequiredArgument(new RawLaTeX("(" + point + ")"))
+                        .withRequiredArgument(new LaTeXCommand(TextTransform.encodeAsPseudoHexBytes(point) + "x"))
+                        .withRequiredArgument(new LaTeXCommand(TextTransform.encodeAsPseudoHexBytes(point) + "y"))
+                        .translate() + ";"));
+        requestedCoordinates.addAll(points);
+    }
+
+    public void addCodeInsertionListener(@NotNull Consumer<String> listener) {
+        codeInsertionListeners.add(listener);
+    }
+
+    private void insertCode(@NotNull String code) {
+        codeInsertionListeners.forEach(listener -> listener.accept(code));
     }
 
     @Override
