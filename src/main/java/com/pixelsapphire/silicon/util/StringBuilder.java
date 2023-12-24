@@ -19,6 +19,16 @@ public class StringBuilder {
         builder = new java.lang.StringBuilder(str);
     }
 
+    public StringBuilder delete(int start, int end) {
+        builder.delete(start, end);
+        return this;
+    }
+
+    public StringBuilder deleteCharAt(int index) {
+        builder.deleteCharAt(index);
+        return this;
+    }
+
     @Contract(value = "_ -> this", mutates = "this")
     public StringBuilder append(@Nullable String str) {
         builder.append(str);
