@@ -43,7 +43,7 @@ public class Coordinates {
                 return "(" + CommonNodes.compileExpression(x) + "," + CommonNodes.compileExpression(MinusOperatorNode.unary(y)) + ")";
             }
             case final PlusOperatorNode plus -> {
-                return compileCoordinates(plus.getLeft(), root) + "++" + compileCoordinates(plus.getRight(), root);
+                return "($" + compileCoordinates(plus.getLeft(), root) + "+" + compileCoordinates(plus.getRight(), root) + "$)";
             }
             case final IdentifierReferenceNode identifier -> {
                 final var point = root.<PointDefinitionNode>getSymbol(identifier.getName(), Node.Type.POINT_DEFINITION)
