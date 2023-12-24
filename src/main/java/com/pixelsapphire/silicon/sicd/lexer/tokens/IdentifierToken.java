@@ -30,7 +30,7 @@ public class IdentifierToken extends ValuedToken {
      * @return {@code true} if the character may start an identifier, {@code false} otherwise
      */
     public static boolean isIdentifierInitialCharacter(char c) {
-        return Character.isLetter(c) || c == '_';
+        return Character.isLetter(c);
     }
 
     @Override

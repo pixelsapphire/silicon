@@ -97,6 +97,14 @@ public abstract class Token implements Location {
          * A plus ({@code -}) token.
          */
         MINUS("-"),
+        /**
+         * A VH corner ({@code |_}) token.
+         */
+        CORNER_VH("|_"),
+        /**
+         * A HV corner ({@code _|}) token.
+         */
+        CORNER_HV("_|"),
         ;
 
         public final String symbol;

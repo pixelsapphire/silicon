@@ -8,6 +8,7 @@ import com.pixelsapphire.silicon.sicd.parser.node.RootNode;
 import com.pixelsapphire.silicon.sicd.parser.node.definition.ComponentDefinitionNode;
 import com.pixelsapphire.silicon.sicd.parser.node.definition.PointDefinitionNode;
 import com.pixelsapphire.silicon.sicd.parser.node.literal.*;
+import com.pixelsapphire.silicon.sicd.parser.node.operator.CornerOperatorNode;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.MinusOperatorNode;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.PlusOperatorNode;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.SubscriptOperatorNode;
@@ -45,6 +46,9 @@ public class Coordinates {
             case final PlusOperatorNode plus -> {
                 return "($" + compileCoordinates(plus.getLeft(), root) + "+" + compileCoordinates(plus.getRight(), root) + "$)";
             }
+            case final CornerOperatorNode corner -> {
+                return compileCoordinates(corner.getOperand(), root);
+            }
             case final IdentifierReferenceNode identifier -> {
                 final var point = root.<PointDefinitionNode>getSymbol(identifier.getName(), Node.Type.POINT_DEFINITION)
                                       .orElseThrow(() -> new CompilationException("Unknown point: " + identifier.getName(),
@@ -70,7 +74,7 @@ public class Coordinates {
                     throw new CompilationException("Expected a pin name or number, got " + subscript.getSubscript().getType(),
                                                    subscript.getSubscript().getLocationOrUnknown());
             }
-            default -> throw new CompilationException("Expected a pair of coordinates, got " + coordinates.getType(),
+            default -> throw new CompilationException(coordinates.getType() + " cannot be converted to a point",
                                                       coordinates.getLocationOrUnknown());
         }
     }

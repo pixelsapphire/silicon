@@ -3,6 +3,7 @@ package com.pixelsapphire.silicon.sicd.lexer;
 import com.pixelsapphire.silicon.io.FileCoordinates;
 import com.pixelsapphire.silicon.io.SiCDSourceProvider;
 import com.pixelsapphire.silicon.sicd.lexer.tokens.*;
+import com.pixelsapphire.silicon.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class SiCDLexer {
         this.source = source;
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public @NotNull List<Token> tokenize() {
 
         final List<Token> tokens = new ArrayList<>();
@@ -46,6 +48,9 @@ public class SiCDLexer {
                     final StringBuilder builder = new StringBuilder();
                     while (i < source.length && source[i] != '\'') builder.append(source[i++]);
                     tokens.add(new StringToken(builder.toString()).at(pos));
+                } else if (TextUtils.matchesAny(source, i, 2, "|_", "_|")) {
+                    tokens.add(ValuelessToken.of(new String(source, i, 2)).get().at(pos));
+                    i++;
                 } else {
                     final var ex = new InvalidCharacterException("Unexpected character: " + source[i], this.source.getCoordinates(i));
                     tokens.add(ValuelessToken.of(c).orElseThrow(() -> ex).at(pos));

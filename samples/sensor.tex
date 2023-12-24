@@ -37,10 +37,10 @@ node[below] at (encoder.bpin 16){\rotatebox[origin=c]{90}{\scriptsize{\texttt{VC
 \draw (encoder.bpin 11)--(encoder-1)--(probe-1);
 \draw (encoder.bpin 12)--(encoder-2)--(probe-2);
 \draw (encoder.bpin 13)--(encoder-3)--(probe-3);
-\gettikzxy{(probes-47-corner)}{\SIABx}{\SIABy};
-\gettikzxy{(probe-4)}{\SIACx}{\SIACy};
-\draw (encoder.bpin 1)--(encoder-4)--(probes-47-corner)--(\SIABx,--\SIACy)--(probe-4);
-\draw (encoder.bpin 2)--(encoder-5)--($(probes-47-corner)+(0.25,-0.25)$);
+\draw (encoder.bpin 1)--(encoder-4)--(probes-47-corner)|-(probe-4);
+\draw (encoder.bpin 2)--(encoder-5)--($(probes-47-corner)+(0.25,-0.25)$)|-(probe-5);
+\draw (encoder.bpin 3)--(encoder-6)--($(probes-47-corner)+(0.5,-0.5)$)|-(probe-6);
+\draw (encoder.bpin 4)--(encoder-7)--($(probes-47-corner)+(0.75,-0.75)$)|-(probe-7);
 
 \end{tikzpicture}
 }

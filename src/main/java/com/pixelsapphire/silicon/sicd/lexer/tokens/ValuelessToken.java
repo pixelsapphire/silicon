@@ -132,6 +132,26 @@ public class ValuelessToken extends Token {
         return new ValuelessToken(Type.MINUS);
     }
 
+    /**
+     * Creates a VH corner ({@code |_}) token.
+     *
+     * @return the new token
+     */
+    @Contract(pure = true, value = "-> new")
+    public static @NotNull ValuelessToken cornerVH() {
+        return new ValuelessToken(Type.CORNER_VH);
+    }
+
+    /**
+     * Creates a HV corner ({@code _|}) token.
+     *
+     * @return the new token
+     */
+    @Contract(pure = true, value = "-> new")
+    public static @NotNull ValuelessToken cornerHV() {
+        return new ValuelessToken(Type.CORNER_HV);
+    }
+
     @Override
     public @NotNull Type getType() {
         return type;

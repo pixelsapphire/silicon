@@ -30,6 +30,7 @@ public abstract class Node implements Location {
     public enum Type {
         COMPONENT_DEFINITION,
         COMPONENT,
+        CORNER_OPERATOR,
         FUNCTION_CALL,
         IDENTIFIER_REFERENCE,
         LIST,

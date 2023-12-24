@@ -10,6 +10,7 @@ import com.pixelsapphire.silicon.sicd.parser.node.literal.ListNode;
 import com.pixelsapphire.silicon.sicd.parser.node.literal.NumberLiteralNode;
 import com.pixelsapphire.silicon.sicd.parser.node.literal.StringLiteralNode;
 import com.pixelsapphire.silicon.sicd.parser.node.literal.TupleNode;
+import com.pixelsapphire.silicon.sicd.parser.node.operator.CornerOperatorNode;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.MinusOperatorNode;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.PlusOperatorNode;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.SubscriptOperatorNode;
@@ -141,6 +142,12 @@ public class SiCDParser {
         if (cursor.peekType() == Token.Type.MINUS) {
             cursor.consume(Token.Type.MINUS);
             return MinusOperatorNode.unary(parseExpression(cursor)).at(cursor.peekLocation(-1));
+        } else if (cursor.peekType() == Token.Type.CORNER_HV) {
+            cursor.consume(Token.Type.CORNER_HV);
+            return CornerOperatorNode.hv(parseExpression(cursor)).at(cursor.peekLocation(-1));
+        } else if (cursor.peekType() == Token.Type.CORNER_VH) {
+            cursor.consume(Token.Type.CORNER_VH);
+            return CornerOperatorNode.vh(parseExpression(cursor)).at(cursor.peekLocation(-1));
         } else {
             final Node left = parseValue(cursor);
             final BiFunction<Node, Node, Node> binaryOperatorBuilder;
