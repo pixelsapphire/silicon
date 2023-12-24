@@ -15,6 +15,10 @@ public class StringBuilder {
         builder = new java.lang.StringBuilder();
     }
 
+    public StringBuilder(@NotNull String str) {
+        builder = new java.lang.StringBuilder(str);
+    }
+
     @Contract(value = "_ -> this", mutates = "this")
     public StringBuilder append(@Nullable String str) {
         builder.append(str);
@@ -130,6 +134,11 @@ public class StringBuilder {
     @Contract(value = "_ -> this", mutates = "this")
     public StringBuilder appendln(char[] str) {
         builder.append(str).append("\n");
+        return this;
+    }
+
+    public StringBuilder appendAll(@Nullable Object @NotNull ... objects) {
+        for (final Object object : objects) builder.append(object);
         return this;
     }
 
