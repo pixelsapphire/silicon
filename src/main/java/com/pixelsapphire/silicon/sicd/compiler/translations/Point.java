@@ -4,7 +4,7 @@ import com.pixelsapphire.silicon.sicd.compiler.CompilationException;
 import com.pixelsapphire.silicon.sicd.parser.node.RootNode;
 import com.pixelsapphire.silicon.sicd.parser.node.definition.PointDefinitionNode;
 import com.pixelsapphire.silicon.sicd.parser.node.literal.LiteralNode;
-import com.pixelsapphire.silicon.util.TextTransform;
+import com.pixelsapphire.silicon.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -15,7 +15,7 @@ public class Point {
         final var initializer = pointDefinition.getInitializer();
         final var coordinates = Coordinates.compileCoordinates(pointDefinition.getCoordinates(), root);
         String compiled = "\\draw " + coordinates +
-                          " coordinate(" + TextTransform.u2d(pointDefinition.getName()) + ")";
+                          " coordinate(" + TextUtils.u2d(pointDefinition.getName()) + ")";
         if (initializer != null) {
             final var params = initializer.getParameters();
             switch (initializer.getName()) {

@@ -4,7 +4,7 @@ import com.pixelsapphire.silicon.latex.LaTeXCommand;
 import com.pixelsapphire.silicon.latex.RawLaTeX;
 import com.pixelsapphire.silicon.sicd.compiler.CompilationException;
 import com.pixelsapphire.silicon.sicd.parser.node.definition.SymbolDefinitionNode;
-import com.pixelsapphire.silicon.util.TextTransform;
+import com.pixelsapphire.silicon.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
@@ -52,7 +52,7 @@ public class RootNode extends Node {
 
     public @NotNull String requestShortId(@NotNull String id) {
         if (!shortIdentifiers.containsKey(id))
-            shortIdentifiers.put(id, "SI" + TextTransform.encodeAsPseudoHexBytes(shortIdentifiers.size()));
+            shortIdentifiers.put(id, "SI" + TextUtils.encodeAsPseudoHexBytes(shortIdentifiers.size()));
         return shortIdentifiers.get(id);
     }
 

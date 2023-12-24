@@ -11,7 +11,7 @@ import com.pixelsapphire.silicon.sicd.parser.node.literal.*;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.MinusOperatorNode;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.PlusOperatorNode;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.SubscriptOperatorNode;
-import com.pixelsapphire.silicon.util.TextTransform;
+import com.pixelsapphire.silicon.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -30,12 +30,12 @@ public class Coordinates {
                 Node x = pair.getChildren().get(0), y = pair.getChildren().get(1);
                 final Set<String> requestedCoordinates = new HashSet<>();
                 if (x instanceof final MemberReferenceNode xRef) {
-                    final var xName = TextTransform.u2d(xRef.getParent());
+                    final var xName = TextUtils.u2d(xRef.getParent());
                     x = new StringLiteralNode("\\" + root.requestShortId(xName) + "x");
                     requestedCoordinates.add(xName);
                 }
                 if (y instanceof final MemberReferenceNode yRef) {
-                    final var yName = TextTransform.u2d(yRef.getParent());
+                    final var yName = TextUtils.u2d(yRef.getParent());
                     y = new StringLiteralNode("-\\" + root.requestShortId(yName) + "y");
                     requestedCoordinates.add(yName);
                 }
@@ -49,7 +49,7 @@ public class Coordinates {
                 final var point = root.<PointDefinitionNode>getSymbol(identifier.getName(), Node.Type.POINT_DEFINITION)
                                       .orElseThrow(() -> new CompilationException("Unknown point: " + identifier.getName(),
                                                                                   identifier.getLocationOrUnknown()));
-                return "(" + TextTransform.u2d(Objects.requireNonNull(point).getName()) + ")";
+                return "(" + TextUtils.u2d(Objects.requireNonNull(point).getName()) + ")";
             }
             case final SubscriptOperatorNode subscript -> {
                 final var component = root.<ComponentDefinitionNode>getSymbol(subscript.getIdentifier(), Node.Type.COMPONENT_DEFINITION)
@@ -65,7 +65,7 @@ public class Coordinates {
                                 "Pin " + name + " not found in component " + component.getName(), subscript.getLocationOrUnknown()));
                     else throw new CompilationException("Expected a pin name or number, got " + literal.getType(),
                                                         literal.getLocationOrUnknown());
-                    return "(" + TextTransform.u2d(component.getName()) + ".bpin " + pin + ")";
+                    return "(" + TextUtils.u2d(component.getName()) + ".bpin " + pin + ")";
                 } else
                     throw new CompilationException("Expected a pin name or number, got " + subscript.getSubscript().getType(),
                                                    subscript.getSubscript().getLocationOrUnknown());
