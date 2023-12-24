@@ -24,7 +24,7 @@ public class CornerOperatorNode extends Node {
         return new CornerOperatorNode(Token.Type.CORNER_HV, operand);
     }
 
-    public @NotNull String getDirection() {
+    public @NotNull String getOperator() {
         return Objects.requireNonNull(direction.symbol);
     }
 
