@@ -3,6 +3,9 @@ package com.pixelsapphire.silicon.sicd.lexer.tokens;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public class ValuelessToken extends Token {
 
     private final Type type;
@@ -11,12 +14,20 @@ public class ValuelessToken extends Token {
         this.type = type;
     }
 
+    public static @NotNull Optional<ValuelessToken> of(@NotNull String symbol) {
+        return Arrays.stream(Type.values()).filter(t -> symbol.equals(t.symbol)).findFirst().map(ValuelessToken::new);
+    }
+
+    public static @NotNull Optional<ValuelessToken> of(char symbol) {
+        return of(String.valueOf(symbol));
+    }
+
     /**
      * Creates a new left parenthesis ({@code (}) token.
      *
      * @return the new token
      */
-    @Contract(pure = true, value = " -> new")
+    @Contract(pure = true, value = "-> new")
     public static @NotNull ValuelessToken leftParen() {
         return new ValuelessToken(Type.LPAREN);
     }
@@ -26,7 +37,7 @@ public class ValuelessToken extends Token {
      *
      * @return the new token
      */
-    @Contract(pure = true, value = " -> new")
+    @Contract(pure = true, value = "-> new")
     public static @NotNull ValuelessToken rightParen() {
         return new ValuelessToken(Type.RPAREN);
     }
@@ -36,7 +47,7 @@ public class ValuelessToken extends Token {
      *
      * @return the new token
      */
-    @Contract(pure = true, value = " -> new")
+    @Contract(pure = true, value = "-> new")
     public static @NotNull ValuelessToken leftBracket() {
         return new ValuelessToken(Type.LBRACKET);
     }
@@ -46,7 +57,7 @@ public class ValuelessToken extends Token {
      *
      * @return the new token
      */
-    @Contract(pure = true, value = " -> new")
+    @Contract(pure = true, value = "-> new")
     public static @NotNull ValuelessToken rightBracket() {
         return new ValuelessToken(Type.RBRACKET);
     }
@@ -56,7 +67,7 @@ public class ValuelessToken extends Token {
      *
      * @return the new token
      */
-    @Contract(pure = true, value = " -> new")
+    @Contract(pure = true, value = "-> new")
     public static @NotNull ValuelessToken dot() {
         return new ValuelessToken(Type.DOT);
     }
@@ -66,7 +77,7 @@ public class ValuelessToken extends Token {
      *
      * @return the new token
      */
-    @Contract(pure = true, value = " -> new")
+    @Contract(pure = true, value = "-> new")
     public static @NotNull ValuelessToken comma() {
         return new ValuelessToken(Type.COMMA);
     }
@@ -76,7 +87,7 @@ public class ValuelessToken extends Token {
      *
      * @return the new token
      */
-    @Contract(pure = true, value = " -> new")
+    @Contract(pure = true, value = "-> new")
     public static @NotNull ValuelessToken colon() {
         return new ValuelessToken(Type.COLON);
     }
@@ -86,7 +97,7 @@ public class ValuelessToken extends Token {
      *
      * @return the new token
      */
-    @Contract(pure = true, value = " -> new")
+    @Contract(pure = true, value = "-> new")
     public static @NotNull ValuelessToken semicolon() {
         return new ValuelessToken(Type.SEMICOLON);
     }
@@ -96,7 +107,7 @@ public class ValuelessToken extends Token {
      *
      * @return the new token
      */
-    @Contract(pure = true, value = " -> new")
+    @Contract(pure = true, value = "-> new")
     public static @NotNull ValuelessToken exclamationMark() {
         return new ValuelessToken(Type.EXCLAMATION_MARK);
     }
@@ -106,7 +117,7 @@ public class ValuelessToken extends Token {
      *
      * @return the new token
      */
-    @Contract(pure = true, value = " -> new")
+    @Contract(pure = true, value = "-> new")
     public static @NotNull ValuelessToken plus() {
         return new ValuelessToken(Type.PLUS);
     }
@@ -116,7 +127,7 @@ public class ValuelessToken extends Token {
      *
      * @return the new token
      */
-    @Contract(pure = true, value = " -> new")
+    @Contract(pure = true, value = "-> new")
     public static @NotNull ValuelessToken minus() {
         return new ValuelessToken(Type.MINUS);
     }

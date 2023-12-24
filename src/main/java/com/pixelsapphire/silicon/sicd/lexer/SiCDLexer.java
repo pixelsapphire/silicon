@@ -46,18 +46,10 @@ public class SiCDLexer {
                     final StringBuilder builder = new StringBuilder();
                     while (i < source.length && source[i] != '\'') builder.append(source[i++]);
                     tokens.add(new StringToken(builder.toString()).at(pos));
-                } else if (c == '(') tokens.add(ValuelessToken.leftParen().at(pos));
-                else if (c == ')') tokens.add(ValuelessToken.rightParen().at(pos));
-                else if (c == '[') tokens.add(ValuelessToken.leftBracket().at(pos));
-                else if (c == ']') tokens.add(ValuelessToken.rightBracket().at(pos));
-                else if (c == '.') tokens.add(ValuelessToken.dot().at(pos));
-                else if (c == ',') tokens.add(ValuelessToken.comma().at(pos));
-                else if (c == ':') tokens.add(ValuelessToken.colon().at(pos));
-                else if (c == ';') tokens.add(ValuelessToken.semicolon().at(pos));
-                else if (c == '!') tokens.add(ValuelessToken.exclamationMark().at(pos));
-                else if (c == '+') tokens.add(ValuelessToken.plus().at(pos));
-                else if (c == '-') tokens.add(ValuelessToken.minus().at(pos));
-                else throw new InvalidCharacterException("Unexpected character: " + source[i], this.source.getCoordinates(i));
+                } else {
+                    final var ex = new InvalidCharacterException("Unexpected character: " + source[i], this.source.getCoordinates(i));
+                    tokens.add(ValuelessToken.of(c).orElseThrow(() -> ex).at(pos));
+                }
             }
         }
 
