@@ -38,13 +38,29 @@ public class KeywordToken extends ValuedToken {
          */
         AT,
         /**
+         * The {@code between} keyword.
+         */
+        BETWEEN,
+        /**
+         * The {@code bottom} keyword.
+         */
+        BOTTOM,
+        /**
          * The {@code component} keyword.
          */
         COMPONENT,
         /**
+         * The {@code here} keyword.
+         */
+        HERE,
+        /**
          * The {@code is} keyword.
          */
         IS,
+        /**
+         * The {@code left} keyword.
+         */
+        LEFT,
         /**
          * The {@code pinout} keyword.
          */
@@ -54,9 +70,21 @@ public class KeywordToken extends ValuedToken {
          */
         POINT,
         /**
+         * The {@code right} keyword.
+         */
+        RIGHT,
+        /**
+         * The {@code then} keyword.
+         */
+        THEN,
+        /**
          * The {@code through} keyword.
          */
         THROUGH,
+        /**
+         * The {@code top} keyword.
+         */
+        TOP,
         /**
          * The {@code wire} keyword.
          */
