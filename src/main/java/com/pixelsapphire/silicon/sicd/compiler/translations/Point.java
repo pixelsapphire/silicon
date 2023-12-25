@@ -14,8 +14,8 @@ public class Point {
     public static @NotNull String compilePoint(@NotNull PointDefinitionNode pointDefinition, @NotNull RootNode root) {
         final var initializer = pointDefinition.getInitializer();
         final var coordinates = Coordinates.compileCoordinates(pointDefinition.getCoordinates(), root);
-        String compiled = "\\draw " + coordinates +
-                          " coordinate(" + TextUtils.u2d(pointDefinition.getName()) + ")";
+        final var pointName = TextUtils.u2d(pointDefinition.getName());
+        String compiled = "\\draw " + coordinates + " coordinate(" + pointName + ")";
         if (initializer != null) {
             final var params = initializer.getParameters();
             switch (initializer.getName()) {

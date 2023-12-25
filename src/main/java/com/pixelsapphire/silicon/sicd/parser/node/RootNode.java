@@ -2,6 +2,7 @@ package com.pixelsapphire.silicon.sicd.parser.node;
 
 import com.pixelsapphire.silicon.latex.LaTeXCommand;
 import com.pixelsapphire.silicon.latex.RawLaTeX;
+import com.pixelsapphire.silicon.sicd.compiler.CodeInsertionListener;
 import com.pixelsapphire.silicon.sicd.compiler.CompilationException;
 import com.pixelsapphire.silicon.sicd.parser.node.definition.SymbolDefinitionNode;
 import com.pixelsapphire.silicon.util.TextUtils;
@@ -10,13 +11,12 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 public class RootNode extends Node {
 
     private final List<Node> nodes;
     private final Map<String, Node> symbols;
-    private final List<Consumer<String>> codeInsertionListeners;
+    private final List<CodeInsertionListener> codeInsertionListeners;
     private final Map<String, String> shortIdentifiers;
     private final Set<String> requestedCoordinates;
 
@@ -66,12 +66,12 @@ public class RootNode extends Node {
         requestedCoordinates.add(point);
     }
 
-    public void addCodeInsertionListener(@NotNull Consumer<String> listener) {
+    public void addCodeInsertionListener(@NotNull CodeInsertionListener listener) {
         codeInsertionListeners.add(listener);
     }
 
     private void insertCode(@NotNull String code) {
-        codeInsertionListeners.forEach(listener -> listener.accept(code));
+        codeInsertionListeners.forEach(listener -> listener.insertCode(code));
     }
 
     @Override

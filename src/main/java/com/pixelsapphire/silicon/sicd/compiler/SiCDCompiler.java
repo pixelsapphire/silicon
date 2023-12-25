@@ -11,17 +11,18 @@ import com.pixelsapphire.silicon.sicd.parser.node.definition.PointDefinitionNode
 import com.pixelsapphire.toolbox.StringBuilder;
 import org.jetbrains.annotations.NotNull;
 
-public class SiCDCompiler {
+public class SiCDCompiler implements CodeInsertionListener {
 
     private final RootNode circuit;
     private final StringBuilder codeBuffer;
 
     public SiCDCompiler(@NotNull RootNode circuit) {
         this.circuit = circuit;
-        this.circuit.addCodeInsertionListener(this::insertCode);
+        this.circuit.addCodeInsertionListener(this);
         codeBuffer = new StringBuilder();
     }
 
+    @Override
     public void insertCode(@NotNull String code) {
         codeBuffer.appendln(code);
     }
