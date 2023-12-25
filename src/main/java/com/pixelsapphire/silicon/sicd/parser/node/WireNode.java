@@ -3,16 +3,27 @@ package com.pixelsapphire.silicon.sicd.parser.node;
 import com.pixelsapphire.silicon.sicd.parser.node.literal.ListNode;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WireNode extends Node {
 
-    private final ListNode points;
+    private final List<Node> paths;
 
-    public WireNode(@NotNull ListNode points) {
-        this.points = points;
+    public WireNode() {
+        paths = new ArrayList<>();
     }
 
-    public @NotNull ListNode getPoints() {
-        return points;
+    public void addPath(@NotNull ListNode path) {
+        paths.add(path);
+    }
+
+    public void addBipole(@NotNull BipoleNode bipole) {
+        paths.add(bipole);
+    }
+
+    public @NotNull List<Node> getPaths() {
+        return paths;
     }
 
     @Override

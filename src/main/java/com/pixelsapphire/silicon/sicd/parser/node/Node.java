@@ -28,8 +28,9 @@ public abstract class Node implements Location {
     public abstract @NotNull Type getType();
 
     public enum Type {
+        BIPOLE,
         COMPONENT_DEFINITION,
-        COMPONENT,
+        INITIALIZER,
         CORNER_OPERATOR,
         DOT_OPERATOR,
         FUNCTION_CALL,

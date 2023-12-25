@@ -2,6 +2,7 @@
 component encoder is dip_chip(pins: 16, label: '74HC148') at (0, 0);
 encoder pinout is ['4', '5', '6', '7', 'EI', 'A2', 'A1', 'GND', 'A0', '0', '1', '2', '3', 'GS', 'EO', 'VCC'];
 point encoder_vcc is junction() at encoder['VCC'] + (0, -0.25);
+point encoder_ei is junction() at encoder['EI'] + (0, 0.25);
 point encoder_1 is junction() at encoder['1'] + (0, -1);
 point encoder_2 is junction() at encoder['2'] + (0, -0.75);
 point encoder_3 is junction() at encoder['3'] + (0, -0.5);
@@ -9,13 +10,22 @@ point encoder_4 is junction() at encoder['4'] + (0, 0.5);
 point encoder_5 is junction() at encoder['5'] + (0, 0.75);
 point encoder_6 is junction() at encoder['6'] + (0, 1);
 point encoder_7 is junction() at encoder['7'] + (0, 1.25);
-# control terminals
+point encoder_a2 is at (encoder['A2'].x, encoder_7.y) + (0, 0.25);
+point encoder_a1 is at (encoder['A1'].x, encoder_7.y) + (0, 0.5);
+point encoder_a0 is at (encoder['GND'].x, encoder_7.y) + (0, 0.75);
+# power & data terminals
 point vcc is terminal(label: 'VCC') at encoder['VCC'] + (-2, -0.25);
 point gnd is terminal(label: 'GND') at vcc + (0, 0.25);
-wire through [vcc, _| encoder['VCC']];
-wire through [encoder_vcc, _| encoder['0']];
+point data_0 is terminal(label: 'D0') at (vcc.x, encoder_a0.y);
+point data_1 is terminal(label: 'D1') at (vcc.x, encoder_a1.y);
+point data_2 is terminal(label: 'D2') at (vcc.x, encoder_a2.y);
+wire [vcc, _| encoder['VCC']] then [encoder_vcc, _| encoder['0']];
+wire [gnd, gnd + (1.25, 0), |_ encoder_ei, |_ encoder['EI']] then [encoder_ei, _| encoder['GND']];
+wire [encoder['A2'], encoder_a2, data_2];
+wire [encoder['A1'], encoder_a1, data_1];
+wire [encoder['A0'], |_ encoder['A0'] + (0.5, -0.25), |_ encoder_a0, data_0];
 # probe terminals
-point probes_47_corner is at (encoder['GND'].x, encoder_4.y) + (0.5, 0); # auxiliary point
+point probes_47_corner is at (encoder['GND'].x, encoder_4.y) + (1, 0);
 point probe_1 is terminal(label: 'P1') at (4, encoder_1.y);
 point probe_2 is terminal(label: 'P2') at probe_1 + (0, 0.25);
 point probe_3 is terminal(label: 'P3') at probe_2 + (0, 0.25);
@@ -23,10 +33,13 @@ point probe_4 is terminal(label: 'P4') at probe_3 + (0, 0.25);
 point probe_5 is terminal(label: 'P5') at probe_4 + (0, 0.25);
 point probe_6 is terminal(label: 'P6') at probe_5 + (0, 0.25);
 point probe_7 is terminal(label: 'P7') at probe_6 + (0, 0.25);
-wire through [encoder['1'], |_ probe_1];
-wire through [encoder['2'], |_ probe_2];
-wire through [encoder['3'], |_ probe_3];
-wire through [encoder['4'], |_ probes_47_corner, |_ probe_4];
-wire through [encoder['5'], |_ probes_47_corner + (0.25, 0.25), |_ probe_5];
-wire through [encoder['6'], |_ probes_47_corner + (0.5, 0.5), |_ probe_6];
-wire through [encoder['7'], |_ probes_47_corner + (0.75, 0.75), |_ probe_7];
+wire [encoder['1'], |_ probe_1];
+wire [encoder['2'], |_ probe_2];
+wire [encoder['3'], |_ probe_3];
+wire [encoder['4'], |_ probes_47_corner, |_ probe_4];
+wire [encoder['5'], |_ probes_47_corner + (0.25, 0.25), |_ probe_5];
+wire [encoder['6'], |_ probes_47_corner + (0.5, 0.5), |_ probe_6];
+wire [encoder['7'], |_ probes_47_corner + (0.75, 0.75), |_ probe_7];
+# pull-down resistors
+wire resistor() between [encoder_1, encoder_1 + (0, -1)];
+wire resistor() between [encoder_7, encoder_7 + (0, 1)];

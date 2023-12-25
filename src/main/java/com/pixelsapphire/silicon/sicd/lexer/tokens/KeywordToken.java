@@ -78,10 +78,6 @@ public class KeywordToken extends ValuedToken {
          */
         THEN,
         /**
-         * The {@code through} keyword.
-         */
-        THROUGH,
-        /**
          * The {@code top} keyword.
          */
         TOP,

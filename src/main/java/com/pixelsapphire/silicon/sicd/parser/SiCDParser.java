@@ -85,9 +85,18 @@ public class SiCDParser {
     }
 
     private void parseWire(@NotNull RootNode root, @NotNull NodeVisitor cursor) {
-        cursor.consumeKeyword(Keyword.THROUGH);
-        root.addNode(new WireNode(parseList(cursor)).at(cursor.peekLocation(-1)));
+        final var wire = (WireNode) new WireNode().at(cursor.peekLocation(-1));
+        while (cursor.peekType() != Token.Type.SEMICOLON) {
+            if (cursor.peekType() == Token.Type.IDENTIFIER) {
+                final var initializer = parseInitializer(cursor);
+                cursor.consumeKeyword(Keyword.BETWEEN);
+                wire.addBipole(new BipoleNode(initializer, parseList(cursor)));
+            } else if (cursor.peekType() == Token.Type.LBRACKET) wire.addPath(parseList(cursor));
+            else throwError(cursor.token);
+            if (cursor.peekType() == Token.Type.KEYWORD) cursor.consumeKeyword(Keyword.THEN);
+        }
         cursor.consume(Token.Type.SEMICOLON);
+        root.addNode(wire);
     }
 
     private @NotNull ElementInitializer parseInitializer(@NotNull NodeVisitor cursor) {

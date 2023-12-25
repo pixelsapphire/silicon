@@ -19,6 +19,7 @@ node[below] at (encoder.bpin 14){\rotatebox[origin=c]{90}{\scriptsize{\texttt{GS
 node[below] at (encoder.bpin 15){\rotatebox[origin=c]{90}{\scriptsize{\texttt{EO}}}}
 node[below] at (encoder.bpin 16){\rotatebox[origin=c]{90}{\scriptsize{\texttt{VCC}}}};
 \draw ($(encoder.bpin 16)+(0,--0.25)$) coordinate(encoder-vcc) to[short,-*]++(0,0);
+\draw ($(encoder.bpin 5)+(0,-0.25)$) coordinate(encoder-ei) to[short,-*]++(0,0);
 \draw ($(encoder.bpin 11)+(0,--1)$) coordinate(encoder-1) to[short,-*]++(0,0);
 \draw ($(encoder.bpin 12)+(0,--0.75)$) coordinate(encoder-2) to[short,-*]++(0,0);
 \draw ($(encoder.bpin 13)+(0,--0.5)$) coordinate(encoder-3) to[short,-*]++(0,0);
@@ -26,15 +27,31 @@ node[below] at (encoder.bpin 16){\rotatebox[origin=c]{90}{\scriptsize{\texttt{VC
 \draw ($(encoder.bpin 2)+(0,-0.75)$) coordinate(encoder-5) to[short,-*]++(0,0);
 \draw ($(encoder.bpin 3)+(0,-1)$) coordinate(encoder-6) to[short,-*]++(0,0);
 \draw ($(encoder.bpin 4)+(0,-1.25)$) coordinate(encoder-7) to[short,-*]++(0,0);
+\gettikzxy{(encoder.bpin 6)}{\SIAAx}{\SIAAy};
+\gettikzxy{(encoder-7)}{\SIABx}{\SIABy};
+\draw ($(\SIAAx,--\SIABy)+(0,-0.25)$) coordinate(encoder-a2);
+\gettikzxy{(encoder.bpin 7)}{\SIACx}{\SIACy};
+\draw ($(\SIACx,--\SIABy)+(0,-0.5)$) coordinate(encoder-a1);
+\gettikzxy{(encoder.bpin 8)}{\SIADx}{\SIADy};
+\draw ($(\SIADx,--\SIABy)+(0,-0.75)$) coordinate(encoder-a0);
 \draw ($(encoder.bpin 16)+(-2,--0.25)$) coordinate(vcc) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{VCC}}}};
 \draw ($(vcc)+(0,-0.25)$) coordinate(gnd) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{GND}}}};
-\draw (vcc)-|(encoder.bpin 16);
-\draw (encoder-vcc)-|(encoder.bpin 10);
-\gettikzxy{(encoder.bpin 8)}{\SIAAx}{\SIAAy};
-\gettikzxy{(encoder-4)}{\SIABx}{\SIABy};
-\draw ($(\SIAAx,--\SIABy)+(0.5,-0)$) coordinate(probes-47-corner);
-\gettikzxy{(encoder-1)}{\SIACx}{\SIACy};
-\draw (4,--\SIACy) coordinate(probe-1) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P1}}}};
+\gettikzxy{(vcc)}{\SIAEx}{\SIAEy};
+\gettikzxy{(encoder-a0)}{\SIAFx}{\SIAFy};
+\draw (\SIAEx,--\SIAFy) coordinate(data-0) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{D0}}}};
+\gettikzxy{(encoder-a1)}{\SIAGx}{\SIAGy};
+\draw (\SIAEx,--\SIAGy) coordinate(data-1) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{D1}}}};
+\gettikzxy{(encoder-a2)}{\SIAHx}{\SIAHy};
+\draw (\SIAEx,--\SIAHy) coordinate(data-2) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{D2}}}};
+\draw (vcc)-|(encoder.bpin 16)(encoder-vcc)-|(encoder.bpin 10);
+\draw (gnd)--($(gnd)+(1.25,-0)$)|-(encoder-ei)|-(encoder.bpin 5)(encoder-ei)-|(encoder.bpin 8);
+\draw (encoder.bpin 6)--(encoder-a2)--(data-2);
+\draw (encoder.bpin 7)--(encoder-a1)--(data-1);
+\draw (encoder.bpin 9)|-($(encoder.bpin 9)+(0.5,--0.25)$)|-(encoder-a0)--(data-0);
+\gettikzxy{(encoder-4)}{\SIAIx}{\SIAIy};
+\draw ($(\SIADx,--\SIAIy)+(1,-0)$) coordinate(probes-47-corner);
+\gettikzxy{(encoder-1)}{\SIAJx}{\SIAJy};
+\draw (4,--\SIAJy) coordinate(probe-1) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P1}}}};
 \draw ($(probe-1)+(0,-0.25)$) coordinate(probe-2) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P2}}}};
 \draw ($(probe-2)+(0,-0.25)$) coordinate(probe-3) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P3}}}};
 \draw ($(probe-3)+(0,-0.25)$) coordinate(probe-4) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P4}}}};
@@ -48,6 +65,8 @@ node[below] at (encoder.bpin 16){\rotatebox[origin=c]{90}{\scriptsize{\texttt{VC
 \draw (encoder.bpin 2)|-($(probes-47-corner)+(0.25,-0.25)$)|-(probe-5);
 \draw (encoder.bpin 3)|-($(probes-47-corner)+(0.5,-0.5)$)|-(probe-6);
 \draw (encoder.bpin 4)|-($(probes-47-corner)+(0.75,-0.75)$)|-(probe-7);
+\draw (encoder-1)to[R,/tikz/circuitikz/bipoles/length=0.3in]($(encoder-1)+(0,--1)$);
+\draw (encoder-7)to[R,/tikz/circuitikz/bipoles/length=0.3in]($(encoder-7)+(0,-1)$);
 
 \end{tikzpicture}
 }

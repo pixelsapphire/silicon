@@ -26,6 +26,6 @@ public class ElementInitializer extends Node {
 
     @Override
     public @NotNull Type getType() {
-        return Type.COMPONENT;
+        return Type.INITIALIZER;
     }
 }
