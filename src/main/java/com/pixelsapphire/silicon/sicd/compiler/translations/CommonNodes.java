@@ -14,9 +14,6 @@ public class CommonNodes {
     public static @NotNull String compileExpression(@NotNull Node expression) {
         return switch (expression) {
             case final LiteralNode literal -> literal.getLiteral();
-            case final PlusOperatorNode plus -> compileExpression(plus.getLeft()) + "++" + compileExpression(plus.getRight());
-            case final MinusOperatorNode minus -> (minus.getLeft() == null ? "" : compileExpression(minus.getLeft())) +
-                                                  "-" + compileExpression(minus.getRight());
             default -> throw new CompilationException("Unexpected expression: " + expression.getType(),
                                                       expression.getLocationOrUnknown());
         };

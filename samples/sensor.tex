@@ -18,29 +18,36 @@ node[below] at (encoder.bpin 13){\rotatebox[origin=c]{90}{\scriptsize{\texttt{3}
 node[below] at (encoder.bpin 14){\rotatebox[origin=c]{90}{\scriptsize{\texttt{GS}}}}
 node[below] at (encoder.bpin 15){\rotatebox[origin=c]{90}{\scriptsize{\texttt{EO}}}}
 node[below] at (encoder.bpin 16){\rotatebox[origin=c]{90}{\scriptsize{\texttt{VCC}}}};
-\draw ($(encoder.bpin 11)+(0,--0.75)$) coordinate(encoder-1) to[short,-*]++(0,0);
-\draw ($(encoder.bpin 12)+(0,--0.5)$) coordinate(encoder-2) to[short,-*]++(0,0);
-\draw ($(encoder.bpin 13)+(0,--0.25)$) coordinate(encoder-3) to[short,-*]++(0,0);
-\draw ($(encoder.bpin 1)+(0,-0.25)$) coordinate(encoder-4) to[short,-*]++(0,0);
-\draw ($(encoder.bpin 2)+(0,-0.5)$) coordinate(encoder-5) to[short,-*]++(0,0);
-\draw ($(encoder.bpin 3)+(0,-0.75)$) coordinate(encoder-6) to[short,-*]++(0,0);
-\draw ($(encoder.bpin 4)+(0,-1)$) coordinate(encoder-7) to[short,-*]++(0,0);
-\draw ($(encoder.bpin 8)+(0.75,-0.25)$) coordinate(probes-47-corner);
-\gettikzxy{(encoder-1)}{\SIAAx}{\SIAAy};
-\draw (4,--\SIAAy) coordinate(probe-1) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P1}}}};
+\draw ($(encoder.bpin 16)+(0,--0.25)$) coordinate(encoder-vcc) to[short,-*]++(0,0);
+\draw ($(encoder.bpin 11)+(0,--1)$) coordinate(encoder-1) to[short,-*]++(0,0);
+\draw ($(encoder.bpin 12)+(0,--0.75)$) coordinate(encoder-2) to[short,-*]++(0,0);
+\draw ($(encoder.bpin 13)+(0,--0.5)$) coordinate(encoder-3) to[short,-*]++(0,0);
+\draw ($(encoder.bpin 1)+(0,-0.5)$) coordinate(encoder-4) to[short,-*]++(0,0);
+\draw ($(encoder.bpin 2)+(0,-0.75)$) coordinate(encoder-5) to[short,-*]++(0,0);
+\draw ($(encoder.bpin 3)+(0,-1)$) coordinate(encoder-6) to[short,-*]++(0,0);
+\draw ($(encoder.bpin 4)+(0,-1.25)$) coordinate(encoder-7) to[short,-*]++(0,0);
+\draw ($(encoder.bpin 16)+(-2,--0.25)$) coordinate(vcc) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{VCC}}}};
+\draw ($(vcc)+(0,-0.25)$) coordinate(gnd) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{GND}}}};
+\draw (vcc)-|(encoder.bpin 16);
+\draw (encoder-vcc)-|(encoder.bpin 10);
+\gettikzxy{(encoder.bpin 8)}{\SIAAx}{\SIAAy};
+\gettikzxy{(encoder-4)}{\SIABx}{\SIABy};
+\draw ($(\SIAAx,--\SIABy)+(0.5,-0)$) coordinate(probes-47-corner);
+\gettikzxy{(encoder-1)}{\SIACx}{\SIACy};
+\draw (4,--\SIACy) coordinate(probe-1) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P1}}}};
 \draw ($(probe-1)+(0,-0.25)$) coordinate(probe-2) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P2}}}};
 \draw ($(probe-2)+(0,-0.25)$) coordinate(probe-3) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P3}}}};
 \draw ($(probe-3)+(0,-0.25)$) coordinate(probe-4) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P4}}}};
 \draw ($(probe-4)+(0,-0.25)$) coordinate(probe-5) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P5}}}};
 \draw ($(probe-5)+(0,-0.25)$) coordinate(probe-6) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P6}}}};
 \draw ($(probe-6)+(0,-0.25)$) coordinate(probe-7) to[short,-o]++(0,0) node[anchor=west]{\rotatebox[origin=c]{0}{\scriptsize{\texttt{P7}}}};
-\draw (encoder.bpin 11)--(encoder-1)--(probe-1);
-\draw (encoder.bpin 12)--(encoder-2)--(probe-2);
-\draw (encoder.bpin 13)--(encoder-3)--(probe-3);
-\draw (encoder.bpin 1)--(encoder-4)--(probes-47-corner)|-(probe-4);
-\draw (encoder.bpin 2)--(encoder-5)--($(probes-47-corner)+(0.25,-0.25)$)|-(probe-5);
-\draw (encoder.bpin 3)--(encoder-6)--($(probes-47-corner)+(0.5,-0.5)$)|-(probe-6);
-\draw (encoder.bpin 4)--(encoder-7)--($(probes-47-corner)+(0.75,-0.75)$)|-(probe-7);
+\draw (encoder.bpin 11)|-(probe-1);
+\draw (encoder.bpin 12)|-(probe-2);
+\draw (encoder.bpin 13)|-(probe-3);
+\draw (encoder.bpin 1)|-(probes-47-corner)|-(probe-4);
+\draw (encoder.bpin 2)|-($(probes-47-corner)+(0.25,-0.25)$)|-(probe-5);
+\draw (encoder.bpin 3)|-($(probes-47-corner)+(0.5,-0.5)$)|-(probe-6);
+\draw (encoder.bpin 4)|-($(probes-47-corner)+(0.75,-0.75)$)|-(probe-7);
 
 \end{tikzpicture}
 }

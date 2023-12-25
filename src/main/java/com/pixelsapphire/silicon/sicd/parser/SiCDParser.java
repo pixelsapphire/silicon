@@ -10,15 +10,13 @@ import com.pixelsapphire.silicon.sicd.parser.node.literal.ListNode;
 import com.pixelsapphire.silicon.sicd.parser.node.literal.NumberLiteralNode;
 import com.pixelsapphire.silicon.sicd.parser.node.literal.StringLiteralNode;
 import com.pixelsapphire.silicon.sicd.parser.node.literal.TupleNode;
-import com.pixelsapphire.silicon.sicd.parser.node.operator.CornerOperatorNode;
-import com.pixelsapphire.silicon.sicd.parser.node.operator.MinusOperatorNode;
-import com.pixelsapphire.silicon.sicd.parser.node.operator.PlusOperatorNode;
-import com.pixelsapphire.silicon.sicd.parser.node.operator.SubscriptOperatorNode;
+import com.pixelsapphire.silicon.sicd.parser.node.operator.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class SiCDParser {
@@ -139,21 +137,27 @@ public class SiCDParser {
     }
 
     private @NotNull Node parseExpression(@NotNull NodeVisitor cursor) {
-        if (cursor.peekType() == Token.Type.MINUS) {
-            cursor.consume(Token.Type.MINUS);
-            return MinusOperatorNode.unary(parseExpression(cursor)).at(cursor.peekLocation(-1));
-        } else if (cursor.peekType() == Token.Type.CORNER_HV) {
-            cursor.consume(Token.Type.CORNER_HV);
-            return CornerOperatorNode.hv(parseExpression(cursor)).at(cursor.peekLocation(-1));
-        } else if (cursor.peekType() == Token.Type.CORNER_VH) {
-            cursor.consume(Token.Type.CORNER_VH);
-            return CornerOperatorNode.vh(parseExpression(cursor)).at(cursor.peekLocation(-1));
+        final var type = cursor.peekType();
+        if (type == Token.Type.MINUS || type == Token.Type.CORNER_HV || type == Token.Type.CORNER_VH) {
+            cursor.consume();
+            final Node operand = parseExpression(cursor);
+            final Function<Node, Node> unaryOperatorBuilder = switch (type) {
+                case MINUS -> MinusOperatorNode::unary;
+                case CORNER_HV -> CornerOperatorNode::hv;
+                case CORNER_VH -> CornerOperatorNode::vh;
+                default -> throw new IllegalStateException();
+            };
+            return unaryOperatorBuilder.apply(operand).at(operand.getLocationOrUnknown());
         } else {
             final Node left = parseValue(cursor);
             final BiFunction<Node, Node, Node> binaryOperatorBuilder;
-            if (cursor.peekType() == Token.Type.PLUS) binaryOperatorBuilder = PlusOperatorNode::binary;
-            else if (cursor.peekType() == Token.Type.MINUS) binaryOperatorBuilder = MinusOperatorNode::binary;
-            else return left;
+            switch (cursor.peekType()) {
+                case PLUS -> binaryOperatorBuilder = PlusOperatorNode::binary;
+                case MINUS -> binaryOperatorBuilder = MinusOperatorNode::binary;
+                default -> {
+                    return left;
+                }
+            }
             cursor.consume();
             return binaryOperatorBuilder.apply(left, parseExpression(cursor)).at(left.getLocationOrUnknown());
         }
@@ -161,7 +165,7 @@ public class SiCDParser {
 
     private @NotNull Node parseValue(@NotNull NodeVisitor cursor) {
         final Token.Type type = cursor.peekType();
-        if (type == Token.Type.IDENTIFIER) return parseIdentifier(cursor);
+        if (type == Token.Type.IDENTIFIER) return parseDotOperator(cursor);
         else if (type == Token.Type.NUMBER) {
             return new NumberLiteralNode(cursor.<NumberToken>consume(Token.Type.NUMBER).getValue()).at(cursor.peekLocation(-1));
         } else if (type == Token.Type.STRING)
@@ -177,13 +181,18 @@ public class SiCDParser {
         return null;
     }
 
+    private @NotNull Node parseDotOperator(@NotNull NodeVisitor cursor) {
+        final Node parent = parseIdentifier(cursor);
+        if (cursor.peekType() == Token.Type.DOT) {
+            cursor.consume(Token.Type.DOT);
+            return new DotOperatorNode(parent, parseIdentifier(cursor)).at(parent.getLocationOrUnknown());
+        }
+        return parent;
+    }
+
     private @NotNull Node parseIdentifier(@NotNull NodeVisitor cursor) {
         final IdentifierToken identifier = cursor.consume(Token.Type.IDENTIFIER);
         final Node node = switch (cursor.peekType()) {
-            case DOT -> {
-                cursor.consume(Token.Type.DOT);
-                yield new MemberReferenceNode(identifier.getValue(), parseIdentifier(cursor));
-            }
             case LBRACKET -> new SubscriptOperatorNode(identifier.getValue(), parseList(cursor));
             default -> new IdentifierReferenceNode(identifier.getValue());
         };

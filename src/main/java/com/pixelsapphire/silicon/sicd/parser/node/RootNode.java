@@ -56,14 +56,14 @@ public class RootNode extends Node {
         return shortIdentifiers.get(id);
     }
 
-    public void insertCoordinatesRequest(@NotNull Set<String> points) {
-        points.stream().filter(s -> !requestedCoordinates.contains(s)).forEach(point -> insertCode(
-                new LaTeXCommand("gettikzxy")
-                        .withRequiredArgument(new RawLaTeX("(" + point + ")"))
-                        .withRequiredArgument(new LaTeXCommand(requestShortId(point) + "x"))
-                        .withRequiredArgument(new LaTeXCommand(requestShortId(point) + "y"))
-                        .translate() + ";"));
-        requestedCoordinates.addAll(points);
+    public void insertCoordinatesRequest(@NotNull String point) {
+        if (!requestedCoordinates.contains(point))
+            insertCode(new LaTeXCommand("gettikzxy")
+                               .withRequiredArgument(new RawLaTeX("(" + point + ")"))
+                               .withRequiredArgument(new LaTeXCommand(requestShortId(point) + "x"))
+                               .withRequiredArgument(new LaTeXCommand(requestShortId(point) + "y"))
+                               .translate() + ";");
+        requestedCoordinates.add(point);
     }
 
     public void addCodeInsertionListener(@NotNull Consumer<String> listener) {

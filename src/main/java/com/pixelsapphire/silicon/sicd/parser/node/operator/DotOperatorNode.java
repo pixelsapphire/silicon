@@ -1,18 +1,18 @@
-package com.pixelsapphire.silicon.sicd.parser.node;
+package com.pixelsapphire.silicon.sicd.parser.node.operator;
 
+import com.pixelsapphire.silicon.sicd.parser.node.Node;
 import org.jetbrains.annotations.NotNull;
 
-public class MemberReferenceNode extends Node {
+public class DotOperatorNode extends Node {
 
-    private final String parent;
-    private final Node member;
+    private final Node parent, member;
 
-    public MemberReferenceNode(@NotNull String parent, @NotNull Node member) {
+    public DotOperatorNode(@NotNull Node parent, @NotNull Node member) {
         this.parent = parent;
         this.member = member;
     }
 
-    public @NotNull String getParent() {
+    public @NotNull Node getParent() {
         return parent;
     }
 
@@ -22,7 +22,7 @@ public class MemberReferenceNode extends Node {
 
     @Override
     public @NotNull Type getType() {
-        return Type.MEMBER_REFERENCE;
+        return Type.DOT_OPERATOR;
     }
 
     @Override
