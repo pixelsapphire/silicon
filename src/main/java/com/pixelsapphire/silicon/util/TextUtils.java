@@ -1,5 +1,6 @@
 package com.pixelsapphire.silicon.util;
 
+import com.pixelsapphire.toolbox.StringBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 

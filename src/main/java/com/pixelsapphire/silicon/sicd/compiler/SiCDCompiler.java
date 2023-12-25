@@ -8,7 +8,7 @@ import com.pixelsapphire.silicon.sicd.parser.node.RootNode;
 import com.pixelsapphire.silicon.sicd.parser.node.WireNode;
 import com.pixelsapphire.silicon.sicd.parser.node.definition.ComponentDefinitionNode;
 import com.pixelsapphire.silicon.sicd.parser.node.definition.PointDefinitionNode;
-import com.pixelsapphire.silicon.util.StringBuilder;
+import com.pixelsapphire.toolbox.StringBuilder;
 import org.jetbrains.annotations.NotNull;
 
 public class SiCDCompiler {

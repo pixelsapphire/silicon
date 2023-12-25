@@ -9,7 +9,7 @@ point encoder_5 is junction() at encoder['5'] + (0, 0.5);
 point encoder_6 is junction() at encoder['6'] + (0, 0.75);
 point encoder_7 is junction() at encoder['7'] + (0, 1);
 # output terminals
-point probes_47_corner is at encoder['GND'] + (0.75,0.25);
+point probes_47_corner is at encoder['GND'] + (0.75,0.25); # auxiliary point
 point probe_1 is terminal(label: 'P1') at (4,encoder_1.y);
 point probe_2 is terminal(label: 'P2') at probe_1 + (0,0.25);
 point probe_3 is terminal(label: 'P3') at probe_2 + (0,0.25);

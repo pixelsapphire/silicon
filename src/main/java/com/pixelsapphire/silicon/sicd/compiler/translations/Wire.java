@@ -3,7 +3,7 @@ package com.pixelsapphire.silicon.sicd.compiler.translations;
 import com.pixelsapphire.silicon.sicd.parser.node.RootNode;
 import com.pixelsapphire.silicon.sicd.parser.node.WireNode;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.CornerOperatorNode;
-import com.pixelsapphire.silicon.util.StringBuilder;
+import com.pixelsapphire.toolbox.StringBuilder;
 import org.jetbrains.annotations.NotNull;
 
 public class Wire {
