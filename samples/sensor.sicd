@@ -1,6 +1,7 @@
 # priority encoder
 component encoder is dip_chip(pins: 16, label: '74HC148') at (0, 0);
-encoder pinout is ['4', '5', '6', '7', 'EI', 'A2', 'A1', 'GND', 'A0', '0', '1', '2', '3', 'GS', 'EO', 'VCC'];
+encoder pinout is ['4', '5', '6', '7', 'EI', 'A2', 'A1', 'GND',
+                   'A0', '0', '1', '2', '3', 'GS', 'EO', 'VCC'];
 point encoder_vcc is junction() at encoder['VCC'] + (0, -0.25);
 point encoder_ei is junction() at encoder['EI'] + (0, 0.25);
 point encoder_1 is junction() at encoder['1'] + (0, -1);
@@ -19,8 +20,10 @@ point gnd is terminal(label: 'GND') at vcc + (0, 0.25);
 point data_0 is terminal(label: 'D0') at (vcc.x, encoder_a0.y);
 point data_1 is terminal(label: 'D1') at (vcc.x, encoder_a1.y);
 point data_2 is terminal(label: 'D2') at (vcc.x, encoder_a2.y);
-wire [vcc, _| encoder['VCC']] then [encoder_vcc, _| encoder['0']];
-wire [gnd, gnd + (1.25, 0), |_ encoder_ei, |_ encoder['EI']] then [encoder_ei, _| encoder['GND']];
+wire [vcc, _| encoder['VCC']]
+    then [encoder_vcc, _| encoder['0']];
+wire [gnd, gnd + (1.25, 0), |_ encoder_ei, |_ encoder['EI']]
+    then [encoder_ei, _| encoder['GND']];
 wire [encoder['A2'], encoder_a2, data_2];
 wire [encoder['A1'], encoder_a1, data_1];
 wire [encoder['A0'], |_ encoder['A0'] + (0.5, -0.25), |_ encoder_a0, data_0];
@@ -41,5 +44,23 @@ wire [encoder['5'], |_ probes_47_corner + (0.25, 0.25), |_ probe_5];
 wire [encoder['6'], |_ probes_47_corner + (0.5, 0.5), |_ probe_6];
 wire [encoder['7'], |_ probes_47_corner + (0.75, 0.75), |_ probe_7];
 # pull-down resistors
-wire resistor() between [encoder_1, encoder_1 + (0, -1)];
-wire resistor() between [encoder_7, encoder_7 + (0, 1)];
+wire resistor() between [encoder_1, encoder_1 + (0, -1)]
+    then [here, _| gnd + (1.25, 0)]
+    then junction();
+wire [encoder_2, (encoder_2.x, encoder_1.y)]
+    then resistor() between [here, here + (0, -1)]
+    then junction();
+wire [encoder_3, (encoder_3.x, encoder_1.y)]
+    then resistor() between [here, here + (0, -1)]
+    then junction();
+wire [encoder_4, (encoder_4.x, encoder_7.y)]
+    then resistor() between [here, here + (0, 1)]
+    then [here, _| encoder_ei];
+wire [encoder_5, (encoder_5.x, encoder_7.y)]
+    then resistor() between [here, here + (0, 1)]
+    then junction();
+wire [encoder_6, (encoder_6.x, encoder_7.y)]
+    then resistor() between [here, here + (0, 1)]
+    then junction();
+wire resistor() between [encoder_7, encoder_7 + (0, 1)]
+    then junction();

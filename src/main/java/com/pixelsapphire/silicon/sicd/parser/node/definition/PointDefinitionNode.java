@@ -1,6 +1,6 @@
 package com.pixelsapphire.silicon.sicd.parser.node.definition;
 
-import com.pixelsapphire.silicon.sicd.parser.node.ElementInitializer;
+import com.pixelsapphire.silicon.sicd.parser.node.ElementInitializerNode;
 import com.pixelsapphire.silicon.sicd.parser.node.Node;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +9,7 @@ public class PointDefinitionNode extends SymbolDefinitionNode {
 
     private String name;
     private Node coordinates;
-    private ElementInitializer initializer;
+    private ElementInitializerNode initializer;
 
     @Override
     public @NotNull String getName() {
@@ -28,11 +28,11 @@ public class PointDefinitionNode extends SymbolDefinitionNode {
         this.coordinates = coordinates;
     }
 
-    public @Nullable ElementInitializer getInitializer() {
+    public @Nullable ElementInitializerNode getInitializer() {
         return initializer;
     }
 
-    public void setInitializer(@Nullable ElementInitializer initializer) {
+    public void setInitializer(@Nullable ElementInitializerNode initializer) {
         this.initializer = initializer;
     }
 

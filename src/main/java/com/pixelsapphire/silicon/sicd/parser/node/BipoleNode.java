@@ -5,15 +5,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class BipoleNode extends Node {
 
-    private final ElementInitializer initializer;
+    private final ElementInitializerNode initializer;
     private final ListNode endpoints;
 
-    public BipoleNode(@NotNull ElementInitializer initializer, @NotNull ListNode endpoints) {
+    public BipoleNode(@NotNull ElementInitializerNode initializer, @NotNull ListNode endpoints) {
         this.initializer = initializer;
         this.endpoints = endpoints;
     }
 
-    public @NotNull ElementInitializer getInitializer() {
+    public @NotNull ElementInitializerNode getInitializer() {
         return initializer;
     }
 

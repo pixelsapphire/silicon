@@ -34,6 +34,7 @@ public abstract class Node implements Location {
         CORNER_OPERATOR,
         DOT_OPERATOR,
         FUNCTION_CALL,
+        HERE,
         IDENTIFIER_REFERENCE,
         LIST,
         MINUS_OPERATOR,

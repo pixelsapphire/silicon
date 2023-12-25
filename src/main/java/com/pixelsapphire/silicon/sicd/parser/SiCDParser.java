@@ -1,15 +1,13 @@
 package com.pixelsapphire.silicon.sicd.parser;
 
 import com.pixelsapphire.silicon.io.FileCoordinates;
+import com.pixelsapphire.silicon.sicd.compiler.translations.Bipoles;
 import com.pixelsapphire.silicon.sicd.lexer.tokens.*;
 import com.pixelsapphire.silicon.sicd.lexer.tokens.KeywordToken.Keyword;
 import com.pixelsapphire.silicon.sicd.parser.node.*;
 import com.pixelsapphire.silicon.sicd.parser.node.definition.ComponentDefinitionNode;
 import com.pixelsapphire.silicon.sicd.parser.node.definition.PointDefinitionNode;
-import com.pixelsapphire.silicon.sicd.parser.node.literal.ListNode;
-import com.pixelsapphire.silicon.sicd.parser.node.literal.NumberLiteralNode;
-import com.pixelsapphire.silicon.sicd.parser.node.literal.StringLiteralNode;
-import com.pixelsapphire.silicon.sicd.parser.node.literal.TupleNode;
+import com.pixelsapphire.silicon.sicd.parser.node.literal.*;
 import com.pixelsapphire.silicon.sicd.parser.node.operator.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,6 +17,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+@SuppressWarnings("SwitchStatementWithTooFewBranches")
 public class SiCDParser {
 
     private final Token[] tokens;
@@ -50,7 +49,7 @@ public class SiCDParser {
 
     private void parseComponentDefinition(@NotNull RootNode root, @NotNull NodeVisitor cursor) {
         final ComponentDefinitionNode definition = new ComponentDefinitionNode();
-        definition.setLocation(cursor.peekLocation(-1));
+        definition.setLocation(cursor.peekPreviousLocation());
         final IdentifierToken name = cursor.consume(Token.Type.IDENTIFIER);
         definition.setName(name.getValue());
         cursor.consumeKeyword(Keyword.IS);
@@ -73,7 +72,7 @@ public class SiCDParser {
 
     private void parsePointDefinition(@NotNull RootNode root, @NotNull NodeVisitor cursor) {
         final PointDefinitionNode definition = new PointDefinitionNode();
-        definition.setLocation(cursor.peekLocation(-1));
+        definition.setLocation(cursor.peekPreviousLocation());
         final IdentifierToken name = cursor.consume(Token.Type.IDENTIFIER);
         definition.setName(name.getValue());
         cursor.consumeKeyword(Keyword.IS);
@@ -85,12 +84,16 @@ public class SiCDParser {
     }
 
     private void parseWire(@NotNull RootNode root, @NotNull NodeVisitor cursor) {
-        final var wire = (WireNode) new WireNode().at(cursor.peekLocation(-1));
+        final var wire = (WireNode) new WireNode().at(cursor.peekPreviousLocation());
         while (cursor.peekType() != Token.Type.SEMICOLON) {
             if (cursor.peekType() == Token.Type.IDENTIFIER) {
                 final var initializer = parseInitializer(cursor);
-                cursor.consumeKeyword(Keyword.BETWEEN);
-                wire.addBipole(new BipoleNode(initializer, parseList(cursor)));
+                if (Bipoles.isBipole(initializer)) {
+                    cursor.consumeKeyword(Keyword.BETWEEN);
+                    wire.addBipole(new BipoleNode(initializer, parseList(cursor)));
+                } else {
+                    wire.addMonopole(initializer);
+                }
             } else if (cursor.peekType() == Token.Type.LBRACKET) wire.addPath(parseList(cursor));
             else throwError(cursor.token);
             if (cursor.peekType() == Token.Type.KEYWORD) cursor.consumeKeyword(Keyword.THEN);
@@ -99,9 +102,9 @@ public class SiCDParser {
         root.addNode(wire);
     }
 
-    private @NotNull ElementInitializer parseInitializer(@NotNull NodeVisitor cursor) {
+    private @NotNull ElementInitializerNode parseInitializer(@NotNull NodeVisitor cursor) {
         final IdentifierToken name = cursor.consume(Token.Type.IDENTIFIER);
-        final ElementInitializer component = new ElementInitializer(name.getValue());
+        final ElementInitializerNode component = new ElementInitializerNode(name.getValue());
         component.setLocation(name.getLocationOrUnknown());
         component.setParameters(parseParametersList(cursor));
         return component;
@@ -176,16 +179,18 @@ public class SiCDParser {
         final Token.Type type = cursor.peekType();
         if (type == Token.Type.IDENTIFIER) return parseDotOperator(cursor);
         else if (type == Token.Type.NUMBER) {
-            return new NumberLiteralNode(cursor.<NumberToken>consume(Token.Type.NUMBER).getValue()).at(cursor.peekLocation(-1));
+            return new NumberLiteralNode(cursor.<NumberToken>consume(Token.Type.NUMBER).getValue()).at(cursor.peekPreviousLocation());
         } else if (type == Token.Type.STRING)
-            return new StringLiteralNode(cursor.<StringToken>consume(Token.Type.STRING).getValue()).at(cursor.peekLocation(-1));
+            return new StringLiteralNode(cursor.<StringToken>consume(Token.Type.STRING).getValue()).at(cursor.peekPreviousLocation());
         else if (type == Token.Type.EXCLAMATION_MARK) {
             cursor.consume(Token.Type.EXCLAMATION_MARK);
             if (cursor.peekType() == Token.Type.STRING)
                 return new StringLiteralNode(cursor.<StringToken>consume(Token.Type.STRING).getValue())
-                        .negated().at(cursor.peekLocation(-1));
+                        .negated().at(cursor.peekPreviousLocation());
         } else if (type == Token.Type.LPAREN) return parseTuple(cursor);
         else if (type == Token.Type.LBRACKET) return parseList(cursor);
+        else if (type == Token.Type.KEYWORD && cursor.peekKeyword() == Keyword.HERE)
+            return new HereNode().at(cursor.consume().getLocationOrUnknown());
         throwError(cursor.token);
         return null;
     }
@@ -245,21 +250,17 @@ public class SiCDParser {
             return tokens[token++];
         }
 
-        private @NotNull FileCoordinates peekLocation(int offset) {
-            return tokens[token + offset].getLocationOrUnknown();
-        }
-
-        private @NotNull FileCoordinates peekLocation() {
-            return peekLocation(0);
-        }
-
-        private @NotNull Token.Type peekType(int offset) {
-            return tokens[token + offset].getType();
+        private @NotNull FileCoordinates peekPreviousLocation() {
+            return tokens[token - 1].getLocationOrUnknown();
         }
 
         private @NotNull Token.Type peekType() {
-            return peekType(0);
+            return tokens[token].getType();
         }
 
+        private @NotNull KeywordToken.Keyword peekKeyword() {
+            if (peekType() != Token.Type.KEYWORD) throwError(token);
+            return KeywordToken.Keyword.fromString(((ValuedToken) tokens[token]).getValue());
+        }
     }
 }

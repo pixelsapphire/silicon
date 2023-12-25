@@ -18,6 +18,10 @@ public class WireNode extends Node {
         paths.add(path);
     }
 
+    public void addMonopole(@NotNull ElementInitializerNode initializer) {
+        paths.add(initializer);
+    }
+
     public void addBipole(@NotNull BipoleNode bipole) {
         paths.add(bipole);
     }

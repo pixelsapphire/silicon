@@ -65,8 +65,17 @@ node[below] at (encoder.bpin 16){\rotatebox[origin=c]{90}{\scriptsize{\texttt{VC
 \draw (encoder.bpin 2)|-($(probes-47-corner)+(0.25,-0.25)$)|-(probe-5);
 \draw (encoder.bpin 3)|-($(probes-47-corner)+(0.5,-0.5)$)|-(probe-6);
 \draw (encoder.bpin 4)|-($(probes-47-corner)+(0.75,-0.75)$)|-(probe-7);
-\draw (encoder-1)to[R,/tikz/circuitikz/bipoles/length=0.3in]($(encoder-1)+(0,--1)$);
-\draw (encoder-7)to[R,/tikz/circuitikz/bipoles/length=0.3in]($(encoder-7)+(0,-1)$);
+\draw (encoder-1)to[R,/tikz/circuitikz/bipoles/length=0.3in]($(encoder-1)+(0,--1)$)-|($(gnd)+(1.25,-0)$)to[short,-*]++(0,0);
+\gettikzxy{(encoder-2)}{\SIAax}{\SIAay};
+\draw (encoder-2)--(\SIAax,--\SIAJy)to[R,/tikz/circuitikz/bipoles/length=0.3in]++(0,--1)to[short,-*]++(0,0);
+\gettikzxy{(encoder-3)}{\SIAbx}{\SIAby};
+\draw (encoder-3)--(\SIAbx,--\SIAJy)to[R,/tikz/circuitikz/bipoles/length=0.3in]++(0,--1)to[short,-*]++(0,0);
+\draw (encoder-4)--(\SIAIx,--\SIABy)to[R,/tikz/circuitikz/bipoles/length=0.3in]++(0,-1)-|(encoder-ei);
+\gettikzxy{(encoder-5)}{\SIAcx}{\SIAcy};
+\draw (encoder-5)--(\SIAcx,--\SIABy)to[R,/tikz/circuitikz/bipoles/length=0.3in]++(0,-1)to[short,-*]++(0,0);
+\gettikzxy{(encoder-6)}{\SIAdx}{\SIAdy};
+\draw (encoder-6)--(\SIAdx,--\SIABy)to[R,/tikz/circuitikz/bipoles/length=0.3in]++(0,-1)to[short,-*]++(0,0);
+\draw (encoder-7)to[R,/tikz/circuitikz/bipoles/length=0.3in]($(encoder-7)+(0,-1)$)to[short,-*]++(0,0);
 
 \end{tikzpicture}
 }

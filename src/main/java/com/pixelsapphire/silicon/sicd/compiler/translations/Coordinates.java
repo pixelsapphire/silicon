@@ -51,6 +51,9 @@ public class Coordinates {
 
     public static @NotNull String compileCoordinates(@NotNull Node coordinates, @NotNull RootNode root) {
         switch (coordinates) {
+            case HereNode ignored -> {
+                return "";
+            }
             case final TupleNode pair -> {
                 if (pair.getChildren().size() != 2)
                     throw new CompilationException("Expected 2 coordinates, got " + pair.getChildren().size(),
@@ -60,6 +63,8 @@ public class Coordinates {
                        compileExpression(MinusOperatorNode.unary(components.get(1).second()), root) + ")";
             }
             case final PlusOperatorNode plus -> {
+                final var left = plus.getLeft();
+                if (left instanceof HereNode) return "++" + compileCoordinates(plus.getRight(), root);
                 return "($" + compileCoordinates(plus.getLeft(), root) + "+" + compileCoordinates(plus.getRight(), root) + "$)";
             }
             case final CornerOperatorNode corner -> {
