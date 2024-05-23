@@ -1,0 +1,68 @@
+                        Silicon License
+
+                    Version 1, 16 June 2022
+                Copyright (c) 2022 Alex Pawelski
+
+Everyone is permitted to copy and distribute verbatim copies of
+this license document, but changing it is not allowed.
+
+0. Definitions
+
+This "License" refers to version 1 of the Silicon License.
+
+"The Library" refers to a covered work governed by this License,
+other than an Application or a Combined Work as defined below.
+
+An "Application" is any work that makes use of an interface
+provided by the Library, but which is not otherwise based on the
+Library. Defining a subclass of a class defined by the Library
+is deemed a mode of using an interface provided by the Library.
+
+A "Combined Work" is a work produced by combining or linking an
+Application with the Library. The particular version of the
+Library with which the Combined Work was made is also called the
+"Linked Version".
+
+1. Conveying Modified Versions
+
+Modified versions of The Library may be distributed under the
+same License, provided that they are plainly marked as such,
+mentioning the original name and author of The Library.
+
+2. Combined Works
+
+You may convey a Combined Work under terms of your choice, if
+you also do both of the following:
+
+ a) Give prominent notice with each copy of the Combined Work
+    that The Library is used in it and that The Library and its
+    use are covered by this License.
+ b) For a Combined Work that displays copyright notices during
+    execution, include the copyright notice for the Library
+    among these notices.
+
+3. Combined Libraries
+
+You may place library facilities that are a work based on the
+Library side by side in a single library together with other
+library facilities that are not Applications and are not covered
+by this License, and convey such a combined library under terms
+of your choice, if you also do the following:
+
+ a) Give prominent notice with the combined library that part of
+    it is a work based on the Library, and explaining where to
+    find the uncombined form of the same work.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGE.
